@@ -1,0 +1,16 @@
+{
+  "ftp/ftp.hni": {
+    "ftp": {
+      "label": {
+        "name": "Name",
+        "server": "Server",
+        "data": "Input is"
+      },
+      "filepath": "Path to local file",
+      "plaintext": "Plaintext",
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Store a file on a remote FTP server.</p>",
+      "help": "<p>This node stores a file on a remote FTP server.</p><p>You can submit plaintext or the full path of a file on your central which will be stored on the FTP Server.<br><br>If the submitted data is plaintext, a txt-file with the current timestamp as filename will be created on the remote server.<br><br>If the submitted data is a path to a file, the file will be uploaded to the remote server.</p>"
+    }
+  }
+}

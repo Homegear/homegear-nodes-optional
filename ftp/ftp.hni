@@ -1,0 +1,54 @@
+<script type="text/x-homegear">
+{
+    "name": "ftp",
+    "readableName": "FTP",
+    "version": "0.0.1",
+    "maxThreadCount": 0
+}
+</script>
+<script type="text/x-red" data-template-name="ftp">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="ftp.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]ftp.label.name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-globe"></i> <span data-i18n="ftp.label.server"></span></label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-data"><i class="fa fa-file"></i> <span data-i18n="ftp.label.data"></span></label>
+        <select id="node-input-data">
+            <option value="filepath" data-i18n="ftp.filepath"></option>
+            <option value="plaintext" data-i18n="ftp.plaintext"></option>
+        </select>
+    </div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('ftp',{
+        color:"#C0DEED",
+        category: 'output',
+        namespace: 'ftp',
+        defaults: {
+            name: {value:""},
+            server: {type:"ftp-server", required:true},
+            data: {value:"filepath",required:true}
+        },
+        inputs:1,
+        outputs:0,
+        align: "right",
+        icon: "white-globe.png",
+        label: function() {
+            if(this.name) return this.name;
+            return "ftp";
+        },
+        oneditprepare: function() {
+            var that = this;
+            $( "#node-input-inputs" ).spinner({
+                min:1
+            });
+            $( "#node-input-outputs" ).spinner({
+                min:1
+            });
+        }
+    });
+</script>

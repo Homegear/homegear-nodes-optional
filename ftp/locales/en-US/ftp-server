@@ -1,0 +1,14 @@
+{
+  "ftp/ftp-server.hni": {
+    "ftp-server": {
+    	"help": "<p>The FTP connection requires a server address (the FQDN or an IP-address), the port, the remote path, a username and a password to be added to the default configuration.<br><br>If the remote path does not exist on the server, it will be created automatically!</p>",
+    	"label": {
+	      "server": "Server",
+				"port": "Port",
+        "path": "Remote path",
+				"user": "Username",
+				"pwd": "Password"
+	    }
+    }
+  }
+}

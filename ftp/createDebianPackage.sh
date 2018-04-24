@@ -28,4 +28,7 @@ cd node-blue-node-ftp-$version
 debuild -us -uc
 cd ..
 rm -Rf node-blue-node-ftp-$version
-mv node-blue-node-ftp* ..
+if [ ! -d ../output ]; then
+	mkdir ../output
+fi
+mv node-blue-node-ftp* ../output/

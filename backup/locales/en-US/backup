@@ -1,0 +1,12 @@
+{
+  "backup/backup.hni": {
+    "backup": {
+      "label": {
+        "name": "Name"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Create a backup.</p>",
+      "help": "<p>This node can be used to create a backup of your system. It returns the full path of the file on your system.</p>"
+    }
+  }
+}

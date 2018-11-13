@@ -1,0 +1,12 @@
+{
+  "backup/backup.hni": {
+    "backup": {
+      "label": {
+        "name": "Name"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Backup erstellen</p>",
+      "help": "<p>Mit dieser Node kann ein Backup vom System erstellt werden. Es wird der komplette Dateipfad der Backup-Datei auf dem Dateisystem zurückgeliefert.</p>"
+    }
+  }
+}

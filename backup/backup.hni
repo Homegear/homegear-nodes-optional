@@ -1,0 +1,32 @@
+<script type="text/x-homegear">
+{
+    "name": "backup",
+    "readableName": "Backup",
+    "version": "0.0.1",
+    "maxThreadCount": 0
+}
+</script>
+<script type="text/x-red" data-template-name="backup">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="backup.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]backup.label.name">
+    </div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('backup',{
+        color:"#C0DEED",
+        category: 'general',
+        namespace: 'backup',
+        defaults: {
+            name: {value:""}
+        },
+        inputs:1,
+        outputs:1,
+        align: "left",
+        icon: "function.png",
+        label: function() {
+            if(this.name) return this.name;
+            return "Backup";
+        },
+    });
+</script>

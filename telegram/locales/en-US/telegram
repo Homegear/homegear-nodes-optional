@@ -1,0 +1,15 @@
+{
+  "notification/telegram.hni": {
+    "telegram": {
+      "label": {
+        "name": "Name",
+        "botId": "Bot ID",
+        "chatId": "Chat ID",
+        "message": "Message"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Send a Telegram notification.</p>",
+      "help": "<p>This node sends a simple notification with Telegram.</p><p>In order to use this node, you need to 'talk' to the 'BotFather'-Bot and register your Telegram-Bot (see here: https://core.telegram.org/bots#6-botfather). After that, you need to start a chat with your bot in order to get the chat id. To get the id, open the 'getUpdates'-url of your bot: https://api.telegram.org/bot[Your Bot Token]/getUpdates</p><p>You may use the <code>$message</code> array to provide the bot-id, chat-id and message programmatically (eg. with a function-node). To do so, use the following elements:<br><br><code>$message['telegram-botId']</code>: bot id<br><code>$message['telegram-chatId']</code>: chat id<br><code>$message['payload']</code>: the message</p><p>If any input is done in the node directly, it overrides any of the corresponding $message elements.</p>"
+    }
+  }
+}

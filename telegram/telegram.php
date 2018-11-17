@@ -15,7 +15,7 @@ class HomegearNode extends HomegearNodeBase
     {
         $botId = (isset($message['telegram-botId']) ? $message['telegram-botId'] : $nodeInfoLocal['info']['botId']);
         $chatId = (isset($message['telegram-chatId']) ? $message['telegram-chatId'] : $nodeInfoLocal['info']['chatId']);
-        $msg = (isset($localNodeInfo) ? $localNodeInfo['info']['message'] : '');
+        $msg = (isset($nodeInfoLocal) ? $nodeInfoLocal['info']['message'] : '');
         if ($msg == '') { 
             $msg = $message['payload'];
         }

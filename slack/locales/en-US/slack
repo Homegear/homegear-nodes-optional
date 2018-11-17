@@ -1,0 +1,14 @@
+{
+  "notification/slack.hni": {
+    "slack": {
+      "label": {
+        "name": "Name",
+        "webhook": "Webhook URL",
+        "message": "Message"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Send a slack notification.</p>",
+      "help": "<p>This node sends a simple notification with slack.</p><p>In order to use this node, you need to create a slack app (see here: https://api.slack.com/apps/new). After that, you need to enable incoming webhooks for your new app (see here: https://api.slack.com/incoming-webhooks#getting-started).<p>You may use <code>$message['payload']</code> to inject the message programmatically (eg. with a function-node).<p>If any input is done in the node directly, it overrides any of the corresponding $message elements.</p>"
+    }
+  }
+}

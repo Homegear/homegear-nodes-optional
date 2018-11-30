@@ -7,6 +7,7 @@ fi
 
 for directory in */ ; do
 	if [ -f "${directory}createDebianPackage.sh" ]; then
+		echo "Building $directory..."
 		cd $directory
 		isBinary=$(find . -name *.cpp | wc -l)
 		if [ $isBinary -gt 0 ]; then
@@ -17,5 +18,6 @@ for directory in */ ; do
 		else
 			./createDebianPackage.sh $1
 		fi
-    fi
+		cd ..
+	fi
 done

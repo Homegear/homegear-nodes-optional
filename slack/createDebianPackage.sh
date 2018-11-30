@@ -23,7 +23,7 @@ echo "node-blue-node-slack ($version-$revision) $1; urgency=low
   * See https://forum.homegear.eu
 
  -- Sathya Laufer <sathya@laufers.net>  $date" > node-blue-node-slack-$version/debian/changelog
-tar -zcpf node-blue-node-slack$version.orig.tar.gz node-blue-node-slack-$version
+tar -zcpf node-blue-node-slack_$version.orig.tar.gz node-blue-node-slack-$version
 cd node-blue-node-slack-$version
 debuild -us -uc
 cd ..

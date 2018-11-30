@@ -23,7 +23,7 @@ echo "node-blue-node-telegram ($version-$revision) $1; urgency=low
   * See https://forum.homegear.eu
 
  -- Sathya Laufer <sathya@laufers.net>  $date" > node-blue-node-telegram-$version/debian/changelog
-tar -zcpf node-blue-node-telegram$version.orig.tar.gz node-blue-node-telegram-$version
+tar -zcpf node-blue-node-telegram_$version.orig.tar.gz node-blue-node-telegram-$version
 cd node-blue-node-telegram-$version
 debuild -us -uc
 cd ..

@@ -13,8 +13,8 @@ override_dh_auto_install:
 	dh_testroot
 	dh_prep
 	dh_installdirs
-	mkdir -p $(CURDIR)/debian/node-blue-node-telegram/var/lib/homegear/node-blue/nodes/telegram
-	cp -R $(CURDIR)/*.php $(CURDIR)/*.hni $(CURDIR)/locales $(CURDIR)/debian/node-blue-node-telegram/var/lib/homegear/node-blue/nodes/telegram/
+	mkdir -p $(CURDIR)/debian/node-blue-node-telegram/var/lib/homegear/node-blue/nodes/notification
+	cp -R $(CURDIR)/*.php $(CURDIR)/*.hni $(CURDIR)/locales $(CURDIR)/debian/node-blue-node-telegram/var/lib/homegear/node-blue/nodes/notification/
 	
 %:
 	dh $@

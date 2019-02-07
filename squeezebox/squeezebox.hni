@@ -46,7 +46,7 @@
 </script>
 <script type="text/javascript">
     RED.nodes.registerType('squeezebox',{
-        color:"#C0DEED",
+        color:"#00837F",
         category: 'notification',
         namespace: 'notification',
         defaults: {
@@ -63,7 +63,7 @@
         inputs:1,
         outputs:1,
         align: "right",
-        icon: "white-globe.png",
+        icon: "squeezebox.png",
         label: function() {
             if(this.name) return this.name;
             return this.player;

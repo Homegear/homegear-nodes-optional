@@ -38,6 +38,8 @@ class HomegearNode extends HomegearNodeBase
         curl_setopt($ch, CURLOPT_HEADER, false);
         $result = curl_exec($ch);
         curl_close($ch);
+
+        $this->output(0, array('payload' => $result));
     }
 }
 ?>

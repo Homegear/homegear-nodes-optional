@@ -1,0 +1,104 @@
+<script type="text/x-homegear">
+{
+    "name": "squeezebox",
+    "readableName": "Squeezebox",
+    "version": "0.0.1",
+    "maxThreadCount": 0
+}
+</script>
+<script type="text/x-red" data-template-name="squeezebox">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="squeezebox.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]squeezebox.label.name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-globe"></i> <span data-i18n="squeezebox.label.server"></span></label>
+        <input type="text" id="node-input-server" data-i18n="[placeholder]squeezebox.label.server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-port"><i class="fa fa-tasks"></i> <span data-i18n="squeezebox.label.port"></span></label>
+        <input type="text" id="node-input-port" data-i18n="[placeholder]squeezebox.label.port">
+    </div>
+    <div class="form-row">
+        <label for="node-input-player"><i class="fa fa-tasks"></i> <span data-i18n="squeezebox.label.player"></span></label>
+        <input type="text" id="node-input-player" data-i18n="[placeholder]squeezebox.label.player">
+    </div>   
+    <div class="form-row">
+        <label for="node-input-p0"><i class="fa fa-tasks"></i> <span data-i18n="squeezebox.label.p0"></span></label>
+        <input type="text" id="node-input-p0" data-i18n="[placeholder]squeezebox.label.p0">
+    </div> 
+    <div class="form-row">
+        <label for="node-input-p1"><i class="fa fa-tasks"></i> <span data-i18n="squeezebox.label.p1"></span></label>
+        <input type="text" id="node-input-p1" data-i18n="[placeholder]squeezebox.label.p1">
+    </div>          
+    <div class="form-row">
+        <label for="node-input-p2"><i class="fa fa-tasks"></i> <span data-i18n="squeezebox.label.p2"></span></label>
+        <input type="text" id="node-input-p2" data-i18n="[placeholder]squeezebox.label.p2">
+    </div>   
+    <div class="form-row">
+        <label for="node-input-p3"><i class="fa fa-tasks"></i> <span data-i18n="squeezebox.label.p3"></span></label>
+        <input type="text" id="node-input-p3" data-i18n="[placeholder]squeezebox.label.p3">
+    </div>   
+    <div class="form-row">
+        <label for="node-input-p4"><i class="fa fa-tasks"></i> <span data-i18n="squeezebox.label.p4"></span></label>
+        <input type="text" id="node-input-p4" data-i18n="[placeholder]squeezebox.label.p4">
+    </div>           
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('squeezebox',{
+        color:"#00837F",
+        category: 'notification',
+        namespace: 'notification',
+        defaults: {
+            name: {value:""},
+            server: {value:""},
+            port: {value:""},
+            player: {value:""},
+            p0: {value:""},
+            p1: {value:""},
+            p2: {value:""},
+            p3: {value:""},
+            p4: {value:""},
+        },
+        inputs:1,
+        outputs:1,
+        align: "right",
+        icon: "squeezebox.png",
+        label: function() {
+            if(this.name) return this.name;
+            return this.player;
+        },
+        oneditprepare: function() {
+            var that = this;
+            $( "#node-input-inputs" ).spinner({
+                min:1
+            });
+            $( "#node-input-outputs" ).spinner({
+                min:1
+            });
+
+            this.editor = RED.editor.createEditor({
+                id: 'node-input-message-editor',
+                mode: {path:"ace/mode/text", inline:true},
+                value: $("#node-input-message").val(),
+            });
+
+            this.editor.focus();
+        },
+        oneditsave: function() {
+            $("#node-input-message").val(this.editor.getValue());
+            delete this.editor;
+        },
+        oneditresize: function(size) {
+            var rows = $("#dialog-form>div:not(.node-text-editor-row)");
+            var height = $("#dialog-form").height();
+            for (var i=0;i<rows.size();i++) {
+                height -= $(rows[i]).outerHeight(true);
+            }
+            var editorRow = $("#dialog-form>div.node-text-editor-row");
+            height -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
+            $(".node-text-editor").css("height",height+"px");
+            this.editor.resize();
+        }
+    });
+</script>

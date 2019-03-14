@@ -47,8 +47,8 @@
 <script type="text/javascript">
     RED.nodes.registerType('squeezebox',{
         color:"#00837F",
-        category: 'notification',
-        namespace: 'notification',
+        category: 'multimedia',
+        namespace: 'multimedia',
         defaults: {
             name: {value:""},
             server: {value:""},

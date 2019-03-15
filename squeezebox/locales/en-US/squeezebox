@@ -1,5 +1,5 @@
 {
-  "notification/squeezebox.hni": {
+  "multimedia/squeezebox.hni": {
     "squeezebox": {
       "label": {
         "name": "Name",

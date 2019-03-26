@@ -1,0 +1,14 @@
+{
+  "notification/slack.hni": {
+    "slack": {
+      "label": {
+        "name": "Name",
+        "webhook": "Webhook URL",
+        "message": "Nachricht"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Sendet eine Benachrichtigung per slack.</p>",
+      "help": "<p>Dieser Knoten sendet eine einfache Benachrichtung per slack.</p><p>Um diesen Knoten verwenden zu können muss eine slack App erstellt werden (siehe <a href=\"https://api.slack.com/apps/new\" target=\"_blank\">hier</a>). Anschließend müssen die eingehenden Webhooks für die neue App aktiviert werden (siehe <a href=\"https://api.slack.com/incoming-webhooks#getting-started\" target=\"_blank\">hier</a>).<p>Mit <code>$message['payload']</code> kann die Nachricht programmatisch übergeben werden (z.B. mit einem Funktions-Knoten).<p>Wenn die Eingaben direkt im Knoten verwendet werden, werden dadurch die übermittelten <code>$message</code> Elemente überschrieben.</p>"
+    }
+  }
+}

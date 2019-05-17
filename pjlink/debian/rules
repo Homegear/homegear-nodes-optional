@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+
+override_dh_auto_clean:
+
+override_dh_auto_configure:
+	# We can for example download needed files here.
+	# All shell commands are supported
+
+override_dh_auto_build:
+
+override_dh_auto_install:
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+	mkdir -p $(CURDIR)/debian/node-blue-node-pjlink/var/lib/homegear/node-blue/nodes/multimedia
+	cp -R $(CURDIR)/*.php $(CURDIR)/*.hni $(CURDIR)/locales $(CURDIR)/debian/node-blue-node-pjlink/var/lib/homegear/node-blue/nodes/multimedia/
+	
+%:
+	dh $@

@@ -1,0 +1,17 @@
+{
+  "multimedia/pjlink.hni": {
+    "pjlink": {
+      "label": {
+        "name": "Name",
+        "projector": "Projector",
+        "port": "Port",
+        "timeout": "Timeout",
+        "command": "Command",
+        "param": "Parameter"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Send class 1 commands to a pjlink projector.</p>",
+      "help": "<p>This node sends commands to a pjlink projector. This is a work in progress. Expect the interface to change. To turn the projector on, use command POWR with param 1, turn it off with param 0.</p>"
+    }
+  }
+}

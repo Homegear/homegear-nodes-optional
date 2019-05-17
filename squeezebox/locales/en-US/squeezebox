@@ -1,0 +1,20 @@
+{
+  "multimedia/squeezebox.hni": {
+    "squeezebox": {
+      "label": {
+        "name": "Name",
+        "server": "Server",
+        "port": "Port",
+        "player": "Player",
+        "p0": "P0",
+        "p1": "P1",
+        "p2": "P2",
+        "p3": "P3",
+        "p4": "P4"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Send commands to a squeezebox.</p>",
+      "help": "<p>This node sends commands to a squeezebox. This is a work in progress. Expect the interface to change</p>"
+    }
+  }
+}

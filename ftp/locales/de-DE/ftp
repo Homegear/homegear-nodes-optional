@@ -1,0 +1,16 @@
+{
+  "ftp/ftp.hni": {
+    "ftp": {
+      "label": {
+        "name": "Name",
+        "server": "Server",
+        "data": "Eingabe ist"
+      },
+      "filepath": "Pfad zur lokalen Datei",
+      "plaintext": "reiner Text",
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Eine Datei auf einem FTP-Server speichern.</p>",
+      "help": "<p>Dieser Knoten speichert eine Datei auf einem FTP-Server.</p><p>Sie können den Inhalt als reinen Text, oder den kompletten Pfad zu einer lokal auf der Zentrale befindlichen Datei angeben die auf dem FTP-Server gespeichert werden soll.<br><br>Wenn der Inhalt als reiner Text übergeben wird, wird eine txt-Datei mit dem aktuellen Zeitstempel als Dateinamen auf dem FTP-Server erstellt.<br><br>Wenn der Pfad zu einer Datei übergeben wird, wird diese Datei auf den FTP-Server hochgeladen.</p>"
+    }
+  }
+}

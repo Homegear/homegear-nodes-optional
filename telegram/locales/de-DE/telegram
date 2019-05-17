@@ -1,0 +1,15 @@
+{
+  "notification/telegram.hni": {
+    "telegram": {
+      "label": {
+        "name": "Name",
+        "botId": "Bot ID",
+        "chatId": "Chat ID",
+        "message": "Nachricht"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Sendet eine Benachrichtigung per Telegram Messenger.</p>",
+      "help": "<p>Dieser Knoten sendet eine einfache Benachrichtung per Telegram Messenger.</p><p>Um diesen Knoten verwenden zu können, müssen Sie vorabe mit dem 'BotFather'-Bot per Telegram 'chatten' und Ihren eigenen Telegram-Bot registrieren (siehe <a href='https://core.telegram.org/bots#6-botfather' taget='_blank'>hier</a>). Anschliessend müssen Sie mit Ihrem Bot 'reden' um die Chat ID herauszufinden. Um diese ID zu bekommen, öffnen Sie die 'getUpdates'-URL Ihres Bots: <code>https://api.telegram.org/bot[Your Bot Token]/getUpdates</code></p><p>Sie können das <code>$message</code> Objekt verwenden um die Bot ID, Chat ID und die Nachricht programmatisch zu übergeben (z.B. mit einem Funktions-Knoten). Folgende Elemente können verwendet werden:<br><br><code>$message['telegram-botId']</code>: Bot ID<br><code>$message['telegram-chatId']</code>: Chat ID<br><code>$message['payload']</code>: die Nachricht</p><p>Wenn Sie die Eingaben direkt in den Einstellungen des Knotens verwenden, werden dadurch die übermittelten <code>$message</code> Elemente überschrieben.</p>"
+    }
+  }
+}

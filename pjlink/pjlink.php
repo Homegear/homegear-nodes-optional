@@ -36,13 +36,13 @@ class HomegearNode extends HomegearNodeBase
 		}        
     }
 
-    private function _sendMessage($projector = false, $port = false, $timeout = false, $command = false, $param = false)
+    private function _sendMessage($projector = false, $port = false, $timeout = false, $command = false, $param = -1)
     {
         if ($projector == false) { $this->log(4,"pjlink: projector missing!"); return; }
         if ($port == 0) { $port = 4352; }
         if ($timeout == 0 ) { $timeout = 5; }
         if ($command == false) { $this->log(4,"pjlink: command missing!"); return; }
-        if ($param == false) { $this->log(4,"pjlink: param missing!"); return; }
+        if ($param < 0) { $this->log(4,"pjlink: param missing!"); return; }
 
         $socket=fsockopen($projector,intval($port), $errno, $errstr, intval($timeout));
         if (!$socket) 

@@ -1,0 +1,98 @@
+<script type="text/x-homegear">
+{
+    "name": "tvheadend",
+    "readableName": "tvheadend",
+    "version": "0.0.1",
+    "maxThreadCount": 0
+}
+</script>
+<script type="text/x-red" data-template-name="tvheadend">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="tvheadend.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]tvheadend.label.name">
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-globe"></i> <span data-i18n="tvheadend.label.server"></span></label>
+        <input type="text" id="node-input-server" data-i18n="[placeholder]tvheadend.label.server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-port"><i class="fa fa-tasks"></i> <span data-i18n="tvheadend.label.port"></span></label>
+        <input type="number" id="node-input-port" data-i18n="[placeholder]tvheadend.label.port">
+    </div>
+    <div class="form-row">
+        <label for="node-input-user"><i class="fa fa-tasks"></i> <span data-i18n="tvheadend.label.user"></span></label>
+        <input type="number" id="node-input-user" data-i18n="[placeholder]tvheadend.label.user">
+    </div>   
+    <div class="form-row">
+        <label for="node-input-password"><i class="fa fa-tasks"></i> <span data-i18n="tvheadend.label.password"></span></label>
+        <input type="text" id="node-input-password" data-i18n="[placeholder]tvheadend.label.password">
+    </div> 
+    <div class="form-row">
+        <label for="node-input-channel"><i class="fa fa-tasks"></i> <span data-i18n="tvheadend.label.channel"></span></label>
+        <input type="text" id="node-input-channel" data-i18n="[placeholder]tvheadend.label.channel">
+    </div>        
+    <div class="form-row">
+        <label for="node-input-duration"><i class="fa fa-tasks"></i> <span data-i18n="tvheadend.label.duration"></span></label>
+        <input type="number" id="node-input-duration" data-i18n="[placeholder]tvheadend.label.duration">
+    </div>         
+    <div class="form-row">
+        <label for="node-input-config"><i class="fa fa-tasks"></i> <span data-i18n="tvheadend.label.config"></span></label>
+        <input type="text" id="node-input-config" data-i18n="[placeholder]tvheadend.label.config">
+    </div>                                 
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('tvheadend',{
+        color:"#00BCFB",
+        category: 'multimedia',
+        namespace: 'multimedia',
+        defaults: {
+            name: {value:""},
+            server: {value:""},
+            port: {value:9981},
+            user: {value:""},
+            password: {value:""},
+            channel: {value:""},
+            config: {value:""},
+            duration: {value:300},
+        },
+        inputs:1,
+        outputs:1,
+        align: "right",
+        icon: "tvheadend.png",
+        label: function() {
+            if(this.name) return this.name;
+            return this.server;
+        },
+        oneditprepare: function() {
+            var that = this;
+            $( "#node-input-inputs" ).spinner({
+                min:1
+            });
+            $( "#node-input-outputs" ).spinner({
+                min:1
+            });
+
+            this.editor = RED.editor.createEditor({
+                id: 'node-input-message-editor',
+                mode: {path:"ace/mode/text", inline:true},
+                value: $("#node-input-message").val(),
+            });
+
+            this.editor.focus();
+        },
+        oneditsave: function() {
+            $("#node-input-message").val(this.editor.getValue());
+            delete this.editor;
+        },
+        oneditresize: function(size) {
+            var rows = $("#dialog-form>div:not(.node-text-editor-row)");
+            var height = $("#dialog-form").height();
+            for (var i=0;i<rows.size();i++) {
+                height -= $(rows[i]).outerHeight(true);
+            }
+            var editorRow = $("#dialog-form>div.node-text-editor-row");
+            height -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
+            $(".node-text-editor").css("height",height+"px");
+            this.editor.resize();
+        }
+    });
+</script>

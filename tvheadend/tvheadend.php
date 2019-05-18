@@ -56,7 +56,7 @@ class HomegearNode extends HomegearNodeBase
         $config = (isset($message['payload']['config']) ? $message['payload']['config'] : $nodeInfoLocal['info']['config']);
         $duration = (isset($message['payload']['duration']) ? $message['payload']['duration'] : $nodeInfoLocal['info']['duration']);
         
-        $channelUUID = this->_getChannelUUID($server,$port,$user,$password,$channel);
+        $channelUUID = $this->_getChannelUUID($server,$port,$user,$password,$channel);
 
         $this->_sendMessage($server,$port,$user,$password,$channelUUID,$config,$duration);
     }

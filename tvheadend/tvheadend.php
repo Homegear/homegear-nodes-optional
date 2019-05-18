@@ -60,7 +60,7 @@ class HomegearNode extends HomegearNodeBase
 
         $this->_sendMessage($server,$port,$user,$password,$channelUUID,$config,$duration);
     }
-    // GET reques
+
     private function _sendMessage($server = false, $port = false, $userpasswd = false,$channelUUID = false ,$config ="",$duration = 300)
     {
         if ($server == false) { $this->log(4,"tvheadend: server missing!"); return; }
@@ -85,8 +85,8 @@ class HomegearNode extends HomegearNodeBase
             "stop_extra":0,
             "channel":"' . $channelUUID . '",
             "config_name":"' . $config .'",
-            "comment":""}
-        ');
+            "comment":""}');
+        }
 
         $url = "http://$userpasswd$server:$port/api/dvr/entry/create?conf=$conf";
         $ch = curl_init($url);

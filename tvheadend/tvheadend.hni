@@ -20,7 +20,7 @@
     </div>
     <div class="form-row">
         <label for="node-input-user"><i class="fa fa-tasks"></i> <span data-i18n="tvheadend.label.user"></span></label>
-        <input type="number" id="node-input-user" data-i18n="[placeholder]tvheadend.label.user">
+        <input type="text" id="node-input-user" data-i18n="[placeholder]tvheadend.label.user">
     </div>   
     <div class="form-row">
         <label for="node-input-password"><i class="fa fa-tasks"></i> <span data-i18n="tvheadend.label.password"></span></label>

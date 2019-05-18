@@ -19,18 +19,22 @@ class HomegearNode extends HomegearNodeBase
         if ($channel == false) { $this->log(4,"tvheadend: channel missing!"); return; }
 
         $url = "http://$userpasswd$server:$port/api/channel/list";
+        
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_POST, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        
         $result = curl_exec($ch);
         curl_close($ch); 
 
         $channels = json_decode($result, true);
 
-        foreach ($content->entries as $entry) 
+        foreach ($channels['entries'] as $entry) 
         {
-            if($entry->val == $channel) 
+            if($entry['val'] == $channel) 
             {
-                $channelUUID = $entry->key;
+                $channelUUID = $entry['key'];
             }
         }
 
@@ -56,12 +60,12 @@ class HomegearNode extends HomegearNodeBase
         $config = (isset($message['payload']['config']) ? $message['payload']['config'] : $nodeInfoLocal['info']['config']);
         $duration = (isset($message['payload']['duration']) ? $message['payload']['duration'] : $nodeInfoLocal['info']['duration']);
         
-        // $channelUUID = $this->_getChannelUUID($server,$port,$user,$password,$channel);
+        $channelUUID = $this->_getChannelUUID($server,$port,$userpasswd,$channel);
 
-        $this->_sendMessage($server,$port,$user,$password,$channel,$config,$duration);
+        $this->_sendMessage($server,$port,$userpasswd,$channel,$channelUUID,$config,$duration);
     }
 
-    private function _sendMessage($server = false, $port = false, $userpasswd = false,$channelUUID = false ,$config ="",$duration = 300)
+    private function _sendMessage($server = false, $port = false, $userpasswd = false,$channel = false,$channelUUID = false ,$config ="",$duration = 300)
     {
         if ($server == false) { $this->log(4,"tvheadend: server missing!"); return; }
         if ($port == false) { $this->log(4,"tvheadend: port missing!"); return; }
@@ -78,7 +82,7 @@ class HomegearNode extends HomegearNodeBase
         
         // if ($laststop<$start) {           
             $conf=urlencode('{
-            "disp_title":"cam01",
+            "disp_title":"' . $channel . '",
             "start":' . $start . ',
             "start_extra":0,
             "stop":' . $stop . ',

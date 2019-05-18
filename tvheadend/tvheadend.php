@@ -56,9 +56,9 @@ class HomegearNode extends HomegearNodeBase
         $config = (isset($message['payload']['config']) ? $message['payload']['config'] : $nodeInfoLocal['info']['config']);
         $duration = (isset($message['payload']['duration']) ? $message['payload']['duration'] : $nodeInfoLocal['info']['duration']);
         
-        $channelUUID = $this->_getChannelUUID($server,$port,$user,$password,$channel);
+        // $channelUUID = $this->_getChannelUUID($server,$port,$user,$password,$channel);
 
-        $this->_sendMessage($server,$port,$user,$password,$channelUUID,$config,$duration);
+        $this->_sendMessage($server,$port,$user,$password,$channel,$config,$duration);
     }
 
     private function _sendMessage($server = false, $port = false, $userpasswd = false,$channelUUID = false ,$config ="",$duration = 300)
@@ -71,12 +71,12 @@ class HomegearNode extends HomegearNodeBase
         $start=time();
         $stop=$start + $duration;
 
-        $laststop=getNodeData("laststop");
-        if ($laststop==null) {
-            $laststop=$stop-60;
-        }   
+        // $laststop=getNodeData("laststop");
+        // if ($laststop==null) {
+        //     $laststop=$stop-60;
+        // }   
         
-        if ($laststop<$start) {           
+        // if ($laststop<$start) {           
             $conf=urlencode('{
             "disp_title":"cam01",
             "start":' . $start . ',
@@ -86,7 +86,7 @@ class HomegearNode extends HomegearNodeBase
             "channel":"' . $channelUUID . '",
             "config_name":"' . $config .'",
             "comment":""}');
-        }
+        // }
 
         $url = "http://$userpasswd$server:$port/api/dvr/entry/create?conf=$conf";
         $ch = curl_init($url);

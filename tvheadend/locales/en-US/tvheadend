@@ -9,7 +9,7 @@
             "password": "Password",
             "channel": "Channel",
             "config": "Config",
-            "duration": "Duration",
+            "duration": "Duration"
       },
       "tip": "Tip: See the Info tab for help writing functions.",
       "paletteHelp": "<p>Send recording commands to a tvheadend server.</p>",

@@ -9,7 +9,7 @@
             "password": "Passwort",
             "channel": "Kanal",
             "config": "Aufnahme-Konfiguraton",
-            "duration": "Aufnahmedauer",
+            "duration": "Aufnahmedauer"
       },
       "tip": "Tip: See the Info tab for help writing functions.",
       "paletteHelp": "<p>Startet eine Sofortaufnahme auf einem tvheadend Server</p>",

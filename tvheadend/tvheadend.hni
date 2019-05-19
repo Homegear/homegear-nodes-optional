@@ -1,7 +1,7 @@
 <script type="text/x-homegear">
 {
     "name": "tvheadend",
-    "readableName": "tvheadend",
+    "readableName": "Tvheadend",
     "version": "0.0.1",
     "maxThreadCount": 0
 }

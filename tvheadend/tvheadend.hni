@@ -10,6 +10,7 @@
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="tvheadend.label.name"></span></label>
         <input type="text" id="node-input-name" data-i18n="[placeholder]tvheadend.label.name">
+    </div>        
     <div class="form-row">
         <label for="node-input-server"><i class="fa fa-globe"></i> <span data-i18n="tvheadend.label.server"></span></label>
         <input type="text" id="node-input-server" data-i18n="[placeholder]tvheadend.label.server">

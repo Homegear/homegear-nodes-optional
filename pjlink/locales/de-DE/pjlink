@@ -1,0 +1,17 @@
+{
+  "multimedia/pjlink.hni": {
+    "pjlink": {
+      "label": {
+        "name": "Name",
+        "projector": "Projektor",
+        "port": "Port",
+        "timeout": "Timeout",
+        "command": "Befehl",
+        "param": "Parameter"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Sendet eine pjlink Befehl zu einem entsprechenden Projektor.</p>",
+      "help": "<p>Diese node sendet einen pjlonk Befehl an einen Projektor.</p>"
+    }
+  }
+}

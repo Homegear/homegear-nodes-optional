@@ -14,7 +14,7 @@ override_dh_auto_install:
 	dh_prep
 	dh_installdirs
 	mkdir -p $(CURDIR)/debian/node-blue-node-pjlink/var/lib/homegear/node-blue/nodes/multimedia
-	cp -R $(CURDIR)/*.php $(CURDIR)/*.hni $(CURDIR)/locales $(CURDIR)/debian/node-blue-node-pjlink/var/lib/homegear/node-blue/nodes/multimedia/
+	cp -R $(CURDIR)/*.png $(CURDIR)/*.php $(CURDIR)/*.hni $(CURDIR)/locales $(CURDIR)/debian/node-blue-node-pjlink/var/lib/homegear/node-blue/nodes/multimedia/
 	
 %:
 	dh $@

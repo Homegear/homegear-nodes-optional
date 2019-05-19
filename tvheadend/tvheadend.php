@@ -10,15 +10,13 @@ class HomegearNode extends HomegearNodeBase
     {
 	    $this->hg = new \Homegear\Homegear();
     }
-
-    private function _getChannelUUID($server = false, $port = false, $userpasswd = false,$channel = false)
+    private function _getChannelUUID($connection = false,$channel = false)
     {
-        if ($server == false) { $this->log(4,"tvheadend: server missing!"); return; }
-        if ($port == false) { $this->log(4,"tvheadend: port missing!"); return; }
+        if ($connection == false) { $this->log(4,"tvheadend: connection missing!"); return; }
         
         if ($channel == false) { $this->log(4,"tvheadend: channel missing!"); return; }
 
-        $url = "http://$userpasswd$server:$port/api/channel/list";
+        $url = "$connection/api/channel/list";
         
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -40,13 +38,70 @@ class HomegearNode extends HomegearNodeBase
 
         return $channelUUID;
     }
-    public function input(array $nodeInfoLocal, int $inputIndex, array $message)
+    private function _getConfigUUID($connection = false,$config = false)
     {
-        $server = (isset($message['payload']['server']) ? $message['payload']['server'] : $nodeInfoLocal['info']['server']);
-        $port = (isset($message['payload']['port']) ? $message['payload']['port'] : $nodeInfoLocal['info']['port']);
-        $user = (isset($message['payload']['user']) ? $message['payload']['user'] : $nodeInfoLocal['info']['user']);
-        $password = (isset($message['payload']['password']) ? $message['payload']['password'] : $nodeInfoLocal['info']['password']);
+        if ($config == false) { return; } 
 
+        if ($connection == false) { $this->log(4,"tvheadend: connection missing!"); return; }          
+
+        $url = "$connection/api/dvr/config/grid";
+        
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_POST, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        
+        $result = curl_exec($ch);
+        curl_close($ch); 
+
+        $configs = json_decode($result, true);
+
+        $configUUID=$config;
+        foreach ($configs['entries'] as $entry) 
+        {
+            if($entry['name'] == $config) 
+            {
+                $configUUID = $entry['uuid'];
+            }
+        }
+
+        return $configUUID;
+    }
+    private function _getCurrentEndtime($connection = false,$channel = false)
+    {
+        if ($connection == "") { $this->log(4,"tvheadend: connection missing!"); return; }           
+        
+        if ($channel == false) { $this->log(4,"tvheadend: channel missing!"); return; }
+        
+        $url = "$connection/api/dvr/entry/grid_upcoming?limit=300";
+        
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_POST, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        
+        $result = curl_exec($ch);
+        curl_close($ch); 
+
+        $recordings = json_decode($result, true);
+
+        $currentstop=0;
+        foreach ($recordings['entries'] as $entry) 
+        {
+            if($entry['channel'] == $channel && $entry['status']=="Running") 
+            {
+                if ($currentstop < $entry['stop_real']) 
+                {
+                    $currentstop = $entry['stop_real'];
+                }
+                
+            }
+        }
+
+        return $currentstop;
+    }
+    public function _getConnection($server,$port,$user,$password)
+    {
         if($user!="" && $password!="" ) 
         {
             $userpasswd = $user . ":" . $password . "@";
@@ -55,32 +110,44 @@ class HomegearNode extends HomegearNodeBase
         {
             $userpasswd = "";
         }
+        $connection = "http://$userpasswd$server:$port";
 
-        $channel = (isset($message['payload']['channel']) ? $message['payload']['channel'] : $nodeInfoLocal['info']['channel']);
-        $config = (isset($message['payload']['config']) ? $message['payload']['config'] : $nodeInfoLocal['info']['config']);
-        $duration = (isset($message['payload']['duration']) ? $message['payload']['duration'] : $nodeInfoLocal['info']['duration']);
-        
-        $channelUUID = $this->_getChannelUUID($server,$port,$userpasswd,$channel);
-
-        $this->_sendMessage($server,$port,$userpasswd,$channel,$channelUUID,$config,$duration);
+        return $connection;
     }
 
-    private function _sendMessage($server = false, $port = false, $userpasswd = false,$channel = false,$channelUUID = false ,$config ="",$duration = 300)
+    public function input(array $nodeInfoLocal, int $inputIndex, array $message)
     {
-        if ($server == false) { $this->log(4,"tvheadend: server missing!"); return; }
-        if ($port == false) { $this->log(4,"tvheadend: port missing!"); return; }
+        $server = (isset($message['payload']['server']) ? $message['payload']['server'] : $nodeInfoLocal['info']['server']);
+        $port = (isset($message['payload']['port']) ? $message['payload']['port'] : $nodeInfoLocal['info']['port']);
+        $user = (isset($message['payload']['user']) ? $message['payload']['user'] : $nodeInfoLocal['info']['user']);
+        $password = (isset($message['payload']['password']) ? $message['payload']['password'] : $nodeInfoLocal['info']['password']);
+        $connection = $this->_getConnection($server,$port,$user,$password);
+
+        $channel = (isset($message['payload']['channel']) ? $message['payload']['channel'] : $nodeInfoLocal['info']['channel']);
+        $channelUUID = $this->_getChannelUUID($connection,$channel);
+
+        $config = (isset($message['payload']['config']) ? $message['payload']['config'] : $nodeInfoLocal['info']['config']);                        
+        $configUUID = $this->_getConfigUUID($connection,$config);
+
+        $duration = (isset($message['payload']['duration']) ? $message['payload']['duration'] : $nodeInfoLocal['info']['duration']);
+
+        $this->_startRecording($connection,$channel,$channelUUID,$configUUID,$duration);
+    }
+
+    private function _startRecording($connection = false,$channel = false,$channelUUID = false ,$config ="",$duration = 300)
+    {
+        if ($connection == "") { $this->log(4,"tvheadend: connection missing!"); return; }       
         
         if ($channelUUID == false) { $this->log(4,"tvheadend: channel missing!"); return; }
         if ($duration <= 30) { $this->log(4,"tvheadend: duration too short!"); return; }
+        
         $start=time();
         $stop=$start + $duration;
 
-        // $laststop=getNodeData("laststop");
-        // if ($laststop==null) {
-        //     $laststop=$stop-60;
-        // }   
+        $current_stop = $this->_getCurrentEndtime($connection,$channelUUID);
         
-        // if ($laststop<$start) {           
+        if ($current_stop - 60 <= $start) 
+        {           
             $conf=urlencode('{
             "disp_title":"' . $channel . '",
             "start":' . $start . ',
@@ -90,13 +157,19 @@ class HomegearNode extends HomegearNodeBase
             "channel":"' . $channelUUID . '",
             "config_name":"' . $config .'",
             "comment":""}');
-        // }
 
-        $url = "http://$userpasswd$server:$port/api/dvr/entry/create?conf=$conf";
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        $result = curl_exec($ch);
-        curl_close($ch); 
+            $url = "$connection/api/dvr/entry/create?conf=$conf";
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            $result = curl_exec($ch);
+            curl_close($ch); 
+
+            $this->endtimes[$channel]=$stop-60;
+        }
+        else 
+        {
+            $result = false;
+        }
 
         $this->output(0, array('payload' => $result));
     }

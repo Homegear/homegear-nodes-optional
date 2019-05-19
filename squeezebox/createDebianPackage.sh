@@ -16,7 +16,7 @@ revision=$(cat revision.txt)
 
 rm -Rf node-blue-node-squeezebox*
 mkdir node-blue-node-squeezebox-$version
-cp -R locales *.php *.hni debian node-blue-node-squeezebox-$version
+cp -R locales *.png *.php *.hni debian node-blue-node-squeezebox-$version
 date=`LANG=en_US.UTF-8 date +"%a, %d %b %Y %T %z"`
 echo "node-blue-node-squeezebox ($version-$revision) $1; urgency=low
 

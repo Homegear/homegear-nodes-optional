@@ -10,6 +10,7 @@
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="pjlink.label.name"></span></label>
         <input type="text" id="node-input-name" data-i18n="[placeholder]pjlink.label.name">
+    </div>
     <div class="form-row">
         <label for="node-input-projector"><i class="fa fa-globe"></i> <span data-i18n="pjlink.label.projector"></span></label>
         <input type="text" id="node-input-projector" data-i18n="[placeholder]pjlink.label.projector">

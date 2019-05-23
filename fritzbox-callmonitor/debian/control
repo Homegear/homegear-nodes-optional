@@ -1,0 +1,16 @@
+Source: node-blue-node-fritzbox-callmonitor
+Maintainer: Sathya Laufer <sathya@laufers.net>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 8)
+Homepage: https://homegear.eu
+
+Package: node-blue-node-fritzbox-callmonitor
+Architecture: all
+Section: misc
+Priority: optional
+Homepage: https://homegear.eu
+Depends: ${shlibs:Depends}, ${misc:Depends}, homegear (>= 0.7.0)
+Description: Provides a fritzbox-callmonitor node for Node-BLUE.
+ This packet adds a fritzbox-callmonitor node to Node-BLUE.

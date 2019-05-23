@@ -30,10 +30,10 @@
             fritzbox: {value:""},
             port: {value:1012},
         },
-        inputs:1,
+        inputs:0,
         outputs:1,
-        align: "right",
-        icon: "fritzbox-callmonitor.png",
+        align: "left",
+        icon: "white-globe.png",
         label: function() {
             if(this.name) return this.name;
             return this.fritzbox;

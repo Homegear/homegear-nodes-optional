@@ -19,7 +19,37 @@ class CallManagerThread extends Thread
     {
     	$this->sharedData = $sharedData;
     	
-    }
+	}
+	private function _parseCallRecord($record)
+	{
+		$columns = explode(";",$record);
+		if($columns[1]=="RING") 
+		{
+			$result = array(
+				'timestamp'=>$columns[0],
+				'type'=>$columns[1],
+				'id'=>$columns[2],
+				'from'=>$columns[3],
+				'to'=>$columns[4],
+				'line'=>$columns{5]}
+			);
+		} 
+		else if($columns[1]=="CALL") 
+		{
+		}
+		else if($columns[1]=="DISCONNECT") 
+		{
+			$result = array(
+				'timestamp'=>$columns[0],
+				'type'=>$columns[1],
+				'id'=>$columns[2],
+				'unknown'=>$columns[3]				
+			);			
+		}
+
+		return $result;
+
+	}
     public function run()
     {
 	$hg = new \Homegear\Homegear();
@@ -38,10 +68,9 @@ class CallManagerThread extends Thread
 		
 		if($result!="") 
 		{
-			$hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => $result));
-		}
-			// $hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => "test"));
-		
+			$payload=_parseCallRecord($result);
+			$hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => $payload));
+		}	
 	}
 	fclose($fritzboxSocket);
     }

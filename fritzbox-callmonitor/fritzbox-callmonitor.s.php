@@ -1,5 +1,5 @@
 <?php
-//declare(strict_types=1);
+declare(strict_types=1);
 class SharedData extends Threaded
 {
 	public $scriptId = 0;
@@ -29,21 +29,21 @@ class CallManagerThread extends Thread
 		return;
 	}
 
-//	$fritzboxSocket = fsockopen($this->sharedData->fritzHost, $this->sharedData->fritzPort);
+	$fritzboxSocket = fsockopen($this->sharedData->fritzHost, $this->sharedData->fritzPort);
 
 	while(!$this->sharedData->stop)
 	{
-//		stream_set_timeout($fritzboxSocket, 10);
-		//$result = fgets($fritzboxSocket);
+		stream_set_timeout($fritzboxSocket, 10);
+		$result = fgets($fritzboxSocket);
 		
 		if($result!="") 
 		{
 			$hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => $result));
 		}
-			$hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => "test"));
+			// $hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => "test"));
 		
 	}
-//	fclose($fritzboxSocket);
+	fclose($fritzboxSocket);
     }
 }
 class HomegearNode extends HomegearNodeBase

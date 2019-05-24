@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+//declare(strict_types=1);
 class SharedData extends Threaded
 {
 	public $scriptId = 0;
@@ -25,23 +25,25 @@ class CallManagerThread extends Thread
 	$hg = new \Homegear\Homegear();
 	if($hg->registerThread($this->sharedData->scriptId) === false)
 	{
-		$hg->log(2, "FritzBox: Could not register thread.");
+		$hg->log(2, "fritzbox: Could not register thread.");
 		return;
 	}
 
-	$fritzboxSocket = fsockopen($this->sharedData->fritzHost, $this->sharedData->fritzPort);
+//	$fritzboxSocket = fsockopen($this->sharedData->fritzHost, $this->sharedData->fritzPort);
 
 	while(!$this->sharedData->stop)
 	{
-		stream_set_timeout($fritzboxSocket, 10);
-		$result = fgets($fritzboxSocket);
+//		stream_set_timeout($fritzboxSocket, 10);
+		//$result = fgets($fritzboxSocket);
 		
 		if($result!="") 
 		{
 			$hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => $result));
 		}
+			$hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => "test"));
+		
 	}
-	fclose($fritzboxSocket);
+//	fclose($fritzboxSocket);
     }
 }
 class HomegearNode extends HomegearNodeBase
@@ -72,7 +74,7 @@ class HomegearNode extends HomegearNodeBase
 
 		$this->sharedData = new SharedData();
 		$this->sharedData->scriptId = $this->hg->getScriptId();
-		$this->sharedData->fritzHost = (int)$this->nodeInfo['info']['fritzbox'];
+		$this->sharedData->fritzHost = $this->nodeInfo['info']['fritzbox'];
 		$this->sharedData->fritzPort = (int)$this->nodeInfo['info']['port'];
 		$this->sharedData->nodeId = $this->nodeInfo['id'];
 		$this->thread = new CallManagerThread($this->sharedData);

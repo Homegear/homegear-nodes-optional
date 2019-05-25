@@ -80,7 +80,7 @@ class CallManagerThread extends Thread
 			
 			if($result!="") 
 			{
-				$payload=_parseCallRecord($result);
+				$payload=$this->_parseCallRecord($result);
 				$hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => $payload));
 			}	
 		}

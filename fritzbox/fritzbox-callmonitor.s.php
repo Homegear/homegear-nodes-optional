@@ -35,15 +35,14 @@ class Message
 
 class CallManagerThread extends Thread
 {
-
-
 	private $sharedData;
 	private $hg;
 	private $connections;
   public function __construct($sharedData)
     {
 		$this->sharedData = $sharedData;
-		$this->hg = new \Homegear\Homegear();   	
+		$this->hg = new \Homegear\Homegear();   
+		$this->connections = array();
 	}
 	private function _parseCallRecord($record)
 	{
@@ -96,9 +95,9 @@ class CallManagerThread extends Thread
 		return json_encode($msg);
 
 	}
-    public function run()
-    {
-	
+		public function run()
+		{
+
 		if($this->hg->registerThread($this->sharedData->scriptId) === false)
 		{
 			$this->hg->log(2, "fritzbox: Could not register thread.");

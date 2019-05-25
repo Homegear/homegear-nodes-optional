@@ -22,9 +22,14 @@ class Message
 	public $extension;
 	public $length;
 
-	public function copyEndpoints($msg) {
+	public function copyEndpoints($msg) 
+	{
 		$this->caller = $msg->caller;
 		$this->callee = $msg->callee;
+	}
+	public function setDuration($msg)
+	{
+		$this->duration = $this->timestamp - $msg->timestamp;
 	}
 }
 
@@ -65,26 +70,25 @@ class CallManagerThread extends Thread
 				$connections[$id] = $msg;
 				break;
 			case "CONNECT":
-			  $msg.copyEndpoints($connections[$id]);
+			  $msg->copyEndpoints($connections[$id]);
 				$msg->type = "CONNECT";
 				$msg->extension = $columns[3];
 				$connections[$id] = $msg;
 				break;
 			case "DISCONNECT": 
-			  $msg.copyEndpoints($connections[$id]);
+			  $msg->copyEndpoints($connections[$id]);
 				switch($msg->type) {
 					case "INBOUND":
 						$msg->type = "MISSED";
 						break;
 					case "CONNECT":
+					  $msg->setDuration($connections[$id])
 						$msg->type = "DISCONNECT";
 						break;
 					case "OUTBOUND":
 						$msg->type = "UNREACHED";
 						break;
 				}
-				$msg->id = $id;
-				$msg->timestamp = $timestamp;
 				$connections[$id] = NULL;
 				break;
 		}

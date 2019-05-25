@@ -29,7 +29,7 @@ class Message
 	}
 	public function setDuration($msg)
 	{
-		$this->duration = $this->timestamp - $msg->timestamp;
+		$this->duration = strtotime($this->timestamp) - strtotime($msg->timestamp);
 	}
 }
 

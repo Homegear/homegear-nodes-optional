@@ -39,7 +39,7 @@ class CallManagerThread extends Thread
 
 	private $sharedData;
 	private $hg;
-	private $connections;
+	private $this->connections;
   public function __construct($sharedData)
     {
 		$this->sharedData = $sharedData;
@@ -61,35 +61,35 @@ class CallManagerThread extends Thread
 				$msg->caller = $columns[4];
 				$msg->callee = $columns[5];
 				$msg->extension = $columns[3];
-				$connections[$id] = $msg;
+				$this->connections[$id] = $msg;
 				break;
 			case "RING":
 				$msg->type = "INBOUND";
 				$msg->caller = $columns[3];
 				$msg->callee = $columns[4];
-				$connections[$id] = $msg;
+				$this->connections[$id] = $msg;
 				break;
 			case "CONNECT":
-			  $msg->copyEndpoints($connections[$id]);
+			  $msg->copyEndpoints($this->connections[$id]);
 				$msg->type = "CONNECT";
 				$msg->extension = $columns[3];
-				$connections[$id] = $msg;
+				$this->connections[$id] = $msg;
 				break;
 			case "DISCONNECT": 
-			  $msg->copyEndpoints($connections[$id]);
+			  $msg->copyEndpoints($this->connections[$id]);
 				switch($msg->type) {
 					case "INBOUND":
 						$msg->type = "MISSED";
 						break;
 					case "CONNECT":
-					  $msg->setDuration($connections[$id]);
+					  $msg->setDuration($this->connections[$id]);
 						$msg->type = "DISCONNECT";
 						break;
 					case "OUTBOUND":
 						$msg->type = "UNREACHED";
 						break;
 				}
-				$connections[$id] = NULL;
+				$this->connections[$id] = NULL;
 				break;
 		}
 

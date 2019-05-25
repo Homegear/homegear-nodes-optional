@@ -20,8 +20,9 @@ class Message
 	public $caller;
 	public $callee;
 	public $extension;
+	public $length;
 
-	public copyEndpoints($msg) {
+	public function copyEndpoints($msg) {
 		$this->caller = $msg->caller;
 		$this->callee = $msg->callee;
 	}

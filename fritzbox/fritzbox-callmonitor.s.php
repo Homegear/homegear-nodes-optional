@@ -71,7 +71,7 @@ class CallManagerThread extends Thread
 				break;
 			case "DISCONNECT": 
 			  $msg = $connections[id];
-				$switch($msg->type) {
+				switch($msg->type) {
 					case "INBOUND":
 						$msg->type = "MISSED";
 						break;

@@ -36,7 +36,7 @@ class CallManagerThread extends Thread
 				'id'=>$columns[2],
 				'from'=>$columns[3],
 				'to'=>$columns[4],
-				'line'=>$columns{5]}
+				'line'=>$columns[5]
 			);
 		} 
 		else if($columns[1]=="CALL") 

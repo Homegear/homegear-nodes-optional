@@ -59,7 +59,7 @@ class CallManagerThread extends Thread
 			);			
 		}
 
-		return $result;
+		return json_encode($result);
 
 	}
     public function run()

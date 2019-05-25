@@ -20,6 +20,11 @@ class Message
 	public $caller;
 	public $callee;
 	public $extension;
+
+	public copyEndpoints($msg) {
+		$this->caller = $msg->caller;
+		$this->callee = $msg->callee;
+	}
 }
 
 class CallManagerThread extends Thread
@@ -62,7 +67,7 @@ class CallManagerThread extends Thread
 				$connections[$id] = $msg;
 				break;
 			case "CONNECT":
-			  $msg = $connections[$id];
+			  $msg.copyEndpoints($connections[$id]);
 				$msg->type = "CONNECT";
 				$msg->id = $id;
 				$msg->timestamp = $timestamp;
@@ -70,7 +75,7 @@ class CallManagerThread extends Thread
 				$connections[$id] = $msg;
 				break;
 			case "DISCONNECT": 
-			  $msg = $connections[id];
+			  $msg.copyEndpoints($connections[$id]);
 				switch($msg->type) {
 					case "INBOUND":
 						$msg->type = "MISSED";

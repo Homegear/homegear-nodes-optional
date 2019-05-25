@@ -12,17 +12,19 @@ class SharedData extends Threaded
 	{
 	}
 }
+class Message 
+{
+	public $type;
+	public $id;
+	public $timestamp;
+	public $caller;
+	public $callee;
+	public $extension;
+}
+
 class CallManagerThread extends Thread
 {
-	class message 
-	{
-		public $type;
-		public $id;
-		public $timestamp;
-		public $caller;
-		public $callee;
-		public $extension;
-	}
+
 
 	private $sharedData;
 	private $hg;
@@ -38,7 +40,7 @@ class CallManagerThread extends Thread
 		$timestamp = $columns[0];
 		$type = $columns[1];
 		$id = $columns[2];
-		$msg = new message();
+		$msg = new Message();
 
 
 		switch($type) {
@@ -60,6 +62,7 @@ class CallManagerThread extends Thread
 				$connections[$id] = $msg;
 				break;
 			case "CONNECT":
+			  $msg = $connections[$id];
 				$msg->type = "CONNECT";
 				$msg->id = $id;
 				$msg->timestamp = $timestamp;

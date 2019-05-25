@@ -39,7 +39,7 @@ class CallManagerThread extends Thread
 
 	private $sharedData;
 	private $hg;
-	private $this->connections;
+	private $connections;
   public function __construct($sharedData)
     {
 		$this->sharedData = $sharedData;

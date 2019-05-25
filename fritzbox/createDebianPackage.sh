@@ -14,21 +14,21 @@ fi
 version=$(cat version.txt)
 revision=$(cat revision.txt)
 
-rm -Rf node-blue-node-fritzbox-callmonitor*
-mkdir node-blue-node-fritzbox-callmonitor-$version
-cp -R locales *.png *.php *.hni debian node-blue-node-fritzbox-callmonitor-$version
+rm -Rf node-blue-node-fritzbox*
+mkdir node-blue-node-fritzbox-$version
+cp -R locales *.png *.php *.hni debian node-blue-node-fritzbox-$version
 date=`LANG=en_US.UTF-8 date +"%a, %d %b %Y %T %z"`
-echo "node-blue-node-fritzbox-callmonitor ($version-$revision) $1; urgency=low
+echo "node-blue-node-fritzbox ($version-$revision) $1; urgency=low
 
   * See https://forum.homegear.eu
 
- -- Sathya Laufer <sathya@laufers.net>  $date" > node-blue-node-fritzbox-callmonitor-$version/debian/changelog
-tar -zcpf node-blue-node-fritzbox-callmonitor_$version.orig.tar.gz node-blue-node-fritzbox-callmonitor-$version
-cd node-blue-node-fritzbox-callmonitor-$version
+ -- Sathya Laufer <sathya@laufers.net>  $date" > node-blue-node-fritzbox-$version/debian/changelog
+tar -zcpf node-blue-node-fritzbox_$version.orig.tar.gz node-blue-node-fritzbox-$version
+cd node-blue-node-fritzbox-$version
 debuild -us -uc
 cd ..
-rm -Rf node-blue-node-fritzbox-callmonitor-$version
+rm -Rf node-blue-node-fritzbox-$version
 if [ ! -d ../output ]; then
 	mkdir ../output
 fi
-mv node-blue-node-fritzbox-callmonitor* ../output/
+mv node-blue-node-fritzbox* ../output/

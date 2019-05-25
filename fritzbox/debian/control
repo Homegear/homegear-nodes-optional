@@ -1,4 +1,4 @@
-Source: node-blue-node-fritzbox-callmonitor
+Source: node-blue-node-fritzbox
 Maintainer: Sathya Laufer <sathya@laufers.net>
 Section: misc
 Priority: optional
@@ -6,7 +6,7 @@ Standards-Version: 3.9.5
 Build-Depends: debhelper (>= 8)
 Homepage: https://homegear.eu
 
-Package: node-blue-node-fritzbox-callmonitor
+Package: node-blue-node-fritzbox
 Architecture: all
 Section: misc
 Priority: optional

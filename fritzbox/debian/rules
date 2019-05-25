@@ -13,8 +13,8 @@ override_dh_auto_install:
 	dh_testroot
 	dh_prep
 	dh_installdirs
-	mkdir -p $(CURDIR)/debian/node-blue-node-fritzbox-callmonitor/var/lib/homegear/node-blue/nodes/communication
-	cp -R $(CURDIR)/*.png $(CURDIR)/*.php $(CURDIR)/*.hni $(CURDIR)/locales $(CURDIR)/debian/node-blue-node-fritzbox-callmonitor/var/lib/homegear/node-blue/nodes/communication/
+	mkdir -p $(CURDIR)/debian/node-blue-node-fritzbox/var/lib/homegear/node-blue/nodes/communication
+	cp -R $(CURDIR)/*.png $(CURDIR)/*.php $(CURDIR)/*.hni $(CURDIR)/locales $(CURDIR)/debian/node-blue-node-fritzbox/var/lib/homegear/node-blue/nodes/communication/
 	
 %:
 	dh $@

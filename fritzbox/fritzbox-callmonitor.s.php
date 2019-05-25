@@ -82,7 +82,7 @@ class CallManagerThread extends Thread
 						$msg->type = "MISSED";
 						break;
 					case "CONNECT":
-					  $msg->setDuration($this->connections[$id]);
+					  $msg->setDuration($cnn);
 						$msg->type = "DISCONNECT";
 						break;
 					case "OUTBOUND":

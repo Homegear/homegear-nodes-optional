@@ -46,22 +46,19 @@ class CallManagerThread extends Thread
 		$type = $columns[1];
 		$id = $columns[2];
 		$msg = new Message();
-
+		$msg->id = $id;
+		$msg->timestamp = $timestamp;
 
 		switch($type) {
 			case "CALL":
 				$msg->type = "OUTBOUND";
-				$msg->id = $id;
-				$msg->timestamp = $timestamp;
 				$msg->caller = $columns[4];
 				$msg->callee = $columns[5];
 				$msg->extension = $columns[3];
-				$connections[id] = $msg;
+				$connections[$id] = $msg;
 				break;
 			case "RING":
 				$msg->type = "INBOUND";
-				$msg->id = $id;
-				$msg->timestamp = $timestamp;
 				$msg->caller = $columns[3];
 				$msg->callee = $columns[4];
 				$connections[$id] = $msg;
@@ -69,8 +66,6 @@ class CallManagerThread extends Thread
 			case "CONNECT":
 			  $msg.copyEndpoints($connections[$id]);
 				$msg->type = "CONNECT";
-				$msg->id = $id;
-				$msg->timestamp = $timestamp;
 				$msg->extension = $columns[3];
 				$connections[$id] = $msg;
 				break;
@@ -114,6 +109,7 @@ class CallManagerThread extends Thread
 			
 			if($result!="") 
 			{
+				$this->hg->log(4,"fritzbox: $result");
 				$payload=$this->_parseCallRecord($result);
 				$this->hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => $payload));
 			}	

@@ -22,7 +22,7 @@
 </script>
 <script type="text/javascript">
     RED.nodes.registerType('fritzbox-callmonitor',{
-        color:"#00837F",
+        color:"#2E90DD",
         category: 'communication',
         namespace: 'communication',
         defaults: {
@@ -33,7 +33,7 @@
         inputs:0,
         outputs:1,
         align: "left",
-        icon: "white-globe.png",
+        icon: "fritzbox.png",
         label: function() {
             if(this.name) return this.name;
             return this.fritzbox;

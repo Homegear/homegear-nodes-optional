@@ -96,7 +96,6 @@ class HomegearNode extends HomegearNodeBase
 	function __construct()
 	{
 		$this->hg = new \Homegear\Homegear();
-		$this->hg->log(4,"fritzbox: init");
 		
 	}
 	function __destruct()
@@ -105,14 +104,11 @@ class HomegearNode extends HomegearNodeBase
 	}
 	public function init(array $nodeInfo) : bool
 	{	
-		$this->hg->log(4,"fritzbox: init");
 		$this->nodeInfo = $nodeInfo;
 		return true;
 	}
 	public function start() : bool
 	{
-		$this->hg->log(4,"fritzbox: start");
-
 		$this->sharedData = new SharedData();
 		$this->sharedData->scriptId = $this->hg->getScriptId();
 		$this->sharedData->fritzHost = $this->nodeInfo['info']['fritzbox'];

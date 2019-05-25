@@ -14,52 +14,78 @@ class SharedData extends Threaded
 }
 class CallManagerThread extends Thread
 {
+	class message 
+	{
+		public $type;
+		public $id;
+		public $timestamp;
+		public $caller;
+		public $callee;
+		public $extension;
+	}
+
 	private $sharedData;
 	private $hg;
-    public function __construct($sharedData)
+	private $connections;
+  public function __construct($sharedData)
     {
 		$this->sharedData = $sharedData;
 		$this->hg = new \Homegear\Homegear();   	
 	}
 	private function _parseCallRecord($record)
 	{
-		
 		$columns = explode(";",$record);
+		$timestamp = $columns[0];
+		$type = $columns[1];
+		$id = $columns[2];
+		$msg = new message();
 
-		$this->hg->log(4,"fritzbox: $columns[1]");
 
-		if($columns[1]=="RING") 
-		{
-			$result = array(
-				'timestamp'=>$columns[0],
-				'type'=>$columns[1],
-				'id'=>$columns[2],
-				'from'=>$columns[3],
-				'to'=>$columns[4],
-				'line'=>$columns[5]
-			);
-		} 
-		else if($columns[1]=="CALL") 
-		{
-			$result = $record;
-			// $result = array(
-			// 	'timestamp'=>$columns[0],
-			// 	'type'=>$columns[1],
-			// 	'id'=>$columns[2],
-			// 	'unknown'=>$columns[3]				
-			// );					
+		switch($type) {
+			case "CALL":
+				$msg->type = "OUTBOUND";
+				$msg->id = $id;
+				$msg->timestamp = $timestamp;
+				$msg->caller = $columns[4];
+				$msg->callee = $columns[5];
+				$msg->extension = $columns[3];
+				$connections[id] = $msg;
+				break;
+			case "RING":
+				$msg->type = "INBOUND";
+				$msg->id = $id;
+				$msg->timestamp = $timestamp;
+				$msg->caller = $columns[3];
+				$msg->callee = $columns[4];
+				$connections[$id] = $msg;
+				break;
+			case "CONNECT":
+				$msg->type = "CONNECT";
+				$msg->id = $id;
+				$msg->timestamp = $timestamp;
+				$msg->extension = $columns[3];
+				$connections[$id] = $msg;
+				break;
+			case "DISCONNECT": 
+			  $msg = $connections[id];
+				$switch($msg->type) {
+					case "INBOUND":
+						$msg->type = "MISSED";
+						break;
+					case "CONNECT":
+						$msg->type = "DISCONNECT";
+						break;
+					case "OUTBOUND":
+						$msg->type = "UNREACHED";
+						break;
+				}
+				$msg->id = $id;
+				$msg->timestamp = $timestamp;
+				$connections[$id] = NULL;
+				break;
 		}
-		else if($columns[1]=="DISCONNECT") 
-		{
-			$result = array(
-				'timestamp'=>$columns[0],
-				'type'=>$columns[1],
-				'id'=>$columns[2],
-				'unknown'=>$columns[3]				
-			);			
-		}
 
-		return json_encode($result);
+		return json_encode($msg);
 
 	}
     public function run()

@@ -75,8 +75,9 @@ class CallManagerThread extends Thread
 				$this->connections[$id] = $msg;
 				break;
 			case "DISCONNECT": 
-			  $msg->copyEndpoints($this->connections[$id]);
-				switch($msg->type) {
+			  $cnn = $this->connections[$id];
+			  $msg->copyEndpoints($cnn);
+				switch($cnn->type) {
 					case "INBOUND":
 						$msg->type = "MISSED";
 						break;

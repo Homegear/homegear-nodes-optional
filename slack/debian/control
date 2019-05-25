@@ -13,4 +13,4 @@ Priority: optional
 Homepage: https://homegear.eu
 Depends: ${shlibs:Depends}, ${misc:Depends}, homegear (>= 0.7.0)
 Description: Provides a slack node for Node-BLUE.
- Keywords: ["Slack","messenger","communication","notification"]
+ Keywords: Slack,messenger,communication,notification

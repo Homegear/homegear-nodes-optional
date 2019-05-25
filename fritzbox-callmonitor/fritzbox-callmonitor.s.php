@@ -14,15 +14,20 @@ class SharedData extends Threaded
 }
 class CallManagerThread extends Thread
 {
-    private $sharedData;
+	private $sharedData;
+	private $hg;
     public function __construct($sharedData)
     {
-    	$this->sharedData = $sharedData;
-    	
+		$this->sharedData = $sharedData;
+		$this->hg = new \Homegear\Homegear();   	
 	}
 	private function _parseCallRecord($record)
 	{
+		
 		$columns = explode(";",$record);
+
+		$this->hg->log(4,"fritzbox: $columns[1]");
+
 		if($columns[1]=="RING") 
 		{
 			$result = array(
@@ -36,6 +41,13 @@ class CallManagerThread extends Thread
 		} 
 		else if($columns[1]=="CALL") 
 		{
+			$result = $record;
+			// $result = array(
+			// 	'timestamp'=>$columns[0],
+			// 	'type'=>$columns[1],
+			// 	'id'=>$columns[2],
+			// 	'unknown'=>$columns[3]				
+			// );					
 		}
 		else if($columns[1]=="DISCONNECT") 
 		{
@@ -52,28 +64,28 @@ class CallManagerThread extends Thread
 	}
     public function run()
     {
-	$hg = new \Homegear\Homegear();
-	if($hg->registerThread($this->sharedData->scriptId) === false)
-	{
-		$hg->log(2, "fritzbox: Could not register thread.");
-		return;
-	}
-
-	$fritzboxSocket = fsockopen($this->sharedData->fritzHost, $this->sharedData->fritzPort);
-
-	while(!$this->sharedData->stop)
-	{
-		stream_set_timeout($fritzboxSocket, 10);
-		$result = fgets($fritzboxSocket);
-		
-		if($result!="") 
+	
+		if($this->hg->registerThread($this->sharedData->scriptId) === false)
 		{
-			$payload=_parseCallRecord($result);
-			$hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => $payload));
-		}	
-	}
-	fclose($fritzboxSocket);
-    }
+			$this->hg->log(2, "fritzbox: Could not register thread.");
+			return;
+		}
+
+		$fritzboxSocket = fsockopen($this->sharedData->fritzHost, $this->sharedData->fritzPort);
+
+		while(!$this->sharedData->stop)
+		{
+			stream_set_timeout($fritzboxSocket, 10);
+			$result = fgets($fritzboxSocket);
+			
+			if($result!="") 
+			{
+				$payload=_parseCallRecord($result);
+				$hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => $payload));
+			}	
+		}
+		fclose($fritzboxSocket);
+		}
 }
 class HomegearNode extends HomegearNodeBase
 {

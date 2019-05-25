@@ -81,7 +81,7 @@ class CallManagerThread extends Thread
 			if($result!="") 
 			{
 				$payload=$this->_parseCallRecord($result);
-				$hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => $payload));
+				$this->hg->nodeOutput($this->sharedData->nodeId, 0, array('payload' => $payload));
 			}	
 		}
 		fclose($fritzboxSocket);

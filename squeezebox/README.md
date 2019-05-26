@@ -6,12 +6,12 @@
 |pause|(0,1,)||||Pause/unpause player. p1=1 to pause, p1=0 to unpause, omit p1 to toggle|
 |stop|||||Stop the player|
 |sleep|(0..n)||||(Play for p1 seconds and then sleep|
-|playlist|play|<item>|||Replace the current playlist with the song, playlist or directory specified by p2|
+|playlist|play|'<item>'|||Replace the current playlist with the song, playlist or directory specified by p2|
 |playlist|add|<item>|||Append the song, playlist or directory specified by p2 to the end of the current playlist|
-|playlist|insert|<item>|||Insert the song, playlist or directory specified by p2 to be played immediately after the current song.|
-|playlist|resume|<playlist>|||Replace the current playlist with the playlist specified by p2, starting at the song that was playing when the file was saved. (Resuming works only with M3U files saved with the playlist save command below.) Shortcut: use a bare playlist name (without leading directories or trailing .m3u suffix to load a playlist in the saved playlists folder.|
-|playlist|loadalbum|<genre>|<artist>|<album>|Replace the current playlist with all songs for a given genre, artist, and album. Use a value of "*" for p2, p3, or p4 as a wildcard. Note: the server's cache must contain the items for this to work.|
-|playlist|save|<playlist>|||Save a playlist file in the saved playlists directory. Accepts a playlist filename (without .m3u suffix) and saves in the top level of the playlists directory.|
+|playlist|insert|'<item>'|||Insert the song, playlist or directory specified by p2 to be played immediately after the current song.|
+|playlist|resume|'<playlist>'|||Replace the current playlist with the playlist specified by p2, starting at the song that was playing when the file was saved. (Resuming works only with M3U files saved with the playlist save command below.) Shortcut: use a bare playlist name (without leading directories or trailing .m3u suffix to load a playlist in the saved playlists folder.|
+|playlist|loadalbum|'<genre>'|'<artist>'|'<album>'|Replace the current playlist with all songs for a given genre, artist, and album. Use a value of "*" for p2, p3, or p4 as a wildcard. Note: the server's cache must contain the items for this to work.|
+|playlist|save|'<playlist>'|||Save a playlist file in the saved playlists directory. Accepts a playlist filename (without .m3u suffix) and saves in the top level of the playlists directory.|
 |playlist|addalbum|<genre>|<artist>|<album>|Add all songs for a given genre, artist, and album. Use a value of "*" for p2, p3, or p4 as a wildcard. Note: the server's cache must contain the items for this to work.|
 |playlist|clear||||Clear the current playlist|
 |playlist|repeat|(0,1,2,)|||Change the repeat mode. p1=0 no repeat, stop at the end of the playlist, p1=1 repeat the current song, p1=2 repeat the entire playlist. Omit p1 to cycle through values.|

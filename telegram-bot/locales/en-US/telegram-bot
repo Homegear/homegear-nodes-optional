@@ -1,0 +1,13 @@
+{
+  "notification/telegram-bot.hni": {
+    "telegram-bot": {
+      "label": {
+        "name": "Name",
+        "botId": "Bot Id"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Monitors messages to a telegram-bot to execute special commands.</p>",
+      "help": "<p>Monitors messages to a telegram-bot to execute special commands.</p>"
+    }
+  }
+}

@@ -82,3 +82,7 @@ stamp-h?
 cmake*           
 .idea
 output/
+.vscode/launch.json
+.vscode/settings.json
+.gitignore
+.vscode/ftp-sync.json

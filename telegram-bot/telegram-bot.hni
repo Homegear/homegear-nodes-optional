@@ -1,0 +1,66 @@
+<script type="text/x-homegear">
+{
+    "name": "telegram-bot",
+    "readableName": "Telegram-Bot",
+    "version": "1.0.0-1",
+    "maxThreadCount": 1
+}
+</script>
+<script type="text/x-red" data-template-name="telegram-bot">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="telegram-bot.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]telegram-bot.label.name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-botId"><i class="fa fa-globe"></i> <span data-i18n="telegram-bot.label.botId"></span></label>
+        <input type="text" id="node-input-botId" data-i18n="[placeholder]telegram-bot.label.botId">
+    </div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('telegram-bot',{
+        color:"#C0DEED",
+        category: 'notification',
+        namespace: 'notification',
+        defaults: {
+            name: {value:""},
+            botId: {value:""}
+        },
+        inputs:0,
+        outputs:1,
+        align: "left",
+        icon: "telegram.png",
+        label: function() {
+            if(this.name) return this.name;
+            return "telegram-bot";
+        },
+        oneditprepare: function() {
+            var that = this;
+            $( "#node-input-outputs" ).spinner({
+                min:1
+            });
+
+            this.editor = RED.editor.createEditor({
+                id: 'node-input-message-editor',
+                mode: {path:"ace/mode/text", inline:true},
+                value: $("#node-input-message").val(),
+            });
+
+            this.editor.focus();
+        },
+        oneditsave: function() {
+            $("#node-input-message").val(this.editor.getValue());
+            delete this.editor;
+        },
+        oneditresize: function(size) {
+            var rows = $("#dialog-form>div:not(.node-text-editor-row)");
+            var height = $("#dialog-form").height();
+            for (var i=0;i<rows.size();i++) {
+                height -= $(rows[i]).outerHeight(true);
+            }
+            var editorRow = $("#dialog-form>div.node-text-editor-row");
+            height -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
+            $(".node-text-editor").css("height",height+"px");
+            this.editor.resize();
+        }
+    });
+</script>

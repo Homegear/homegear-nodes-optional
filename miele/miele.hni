@@ -32,7 +32,7 @@
         <input type="text" id="node-input-clientsecret" data-i18n="[placeholder]miele.label.clientsecret">
     </div>
     <div class="form-row">
-        <label for="node-input-language"><i class="fa fa-lock"></i> <span data-i18n="miele.label.language"></span></label>
+        <label for="node-input-language"><i class="fa fa-language"></i> <span data-i18n="miele.label.language"></span></label>
         <input type="text" id="node-input-language" data-i18n="[placeholder]miele.label.language">
     </div>
 </script>

@@ -3,7 +3,7 @@
     "name": "fritzbox-callmonitor",
     "readableName": "fritzbox-callmonitor",
     "version": "1.0.0-1",
-    "maxThreadCount": 0
+    "maxThreadCount": 1
 }
 </script>
 <script type="text/x-red" data-template-name="fritzbox-callmonitor">

@@ -14,7 +14,7 @@ override_dh_auto_install:
 	dh_prep
 	dh_installdirs
 	mkdir -p $(CURDIR)/debian/node-blue-node-miele/var/lib/homegear/node-blue/nodes/smarthome
-	cp -R $(CURDIR)/*.php $(CURDIR)/*.hni $(CURDIR)/locales $(CURDIR)/debian/node-blue-node-miele/var/lib/homegear/node-blue/nodes/smarthome/
+	cp -R $(CURDIR)/*.php $(CURDIR)/*.hni $(CURDIR)/*.png $(CURDIR)/locales $(CURDIR)/debian/node-blue-node-miele/var/lib/homegear/node-blue/nodes/smarthome/
 	
 %:
 	dh $@

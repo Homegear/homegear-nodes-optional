@@ -22,7 +22,7 @@ echo "node-blue-node-miele ($version-$revision) $1; urgency=low
 
   * See https://forum.homegear.eu
 
- -- Sathya Laufer <sathya@laufers.net>  $date" > node-blue-node-miele-$version/debian/changelog
+ -- Dr. Sathya Laufer <s.laufer@homegear.email>  $date" > node-blue-node-miele-$version/debian/changelog
 tar -zcpf node-blue-node-miele_$version.orig.tar.gz node-blue-node-miele-$version
 cd node-blue-node-miele-$version
 debuild -us -uc

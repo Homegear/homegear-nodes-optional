@@ -1,51 +1,40 @@
 <script type="text/x-homegear">
 {
-    "name": "slack",
-    "readableName": "Slack",
-    "version": "1.0.0-2",
-    "maxThreadCount": 0
+    "name": "telegram-bot",
+    "readableName": "Telegram-Bot",
+    "version": "1.0.0-1",
+    "maxThreadCount": 1
 }
 </script>
-<script type="text/x-red" data-template-name="slack">
+<script type="text/x-red" data-template-name="telegram-bot">
     <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="slack.label.name"></span></label>
-        <input type="text" id="node-input-name" data-i18n="[placeholder]slack.label.name">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="telegram-bot.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]telegram-bot.label.name">
     </div>
     <div class="form-row">
-        <label for="node-input-webhook"><i class="fa fa-globe"></i> <span data-i18n="slack.label.webhook"></span></label>
-        <input type="text" id="node-input-webhook" data-i18n="[placeholder]slack.label.webhook">
-    </div>
-    <div class="form-row" style="margin-bottom: 0px;">
-        <label for="node-input-message"><i class="fa fa-comment-o"></i> <span data-i18n="slack.label.message"></span></label>
-        <input type="hidden" id="node-input-message" autofocus="autofocus">
-    </div>
-    <div class="form-row node-text-editor-row">
-        <div style="height: 250px; min-height:150px;" class="node-text-editor" id="node-input-message-editor" ></div>
+        <label for="node-input-botId"><i class="fa fa-globe"></i> <span data-i18n="telegram-bot.label.botId"></span></label>
+        <input type="text" id="node-input-botId" data-i18n="[placeholder]telegram-bot.label.botId">
     </div>
 </script>
 <script type="text/javascript">
-    RED.nodes.registerType('slack',{
+    RED.nodes.registerType('telegram-bot',{
         color:"#C0DEED",
         category: 'notification',
         namespace: 'notification',
         defaults: {
             name: {value:""},
-            webhook: {value:""},
-            message: {value:""},
+            botId: {value:""}
         },
-        inputs:1,
+        inputs:0,
         outputs:1,
-        align: "right",
-        icon: "white-globe.png",
+        align: "left",
+        icon: "telegram.png",
         label: function() {
             if(this.name) return this.name;
-            return "slack";
+            return "telegram-bot";
         },
         oneditprepare: function() {
             var that = this;
-            $( "#node-input-inputs" ).spinner({
-                min:1
-            });
             $( "#node-input-outputs" ).spinner({
                 min:1
             });

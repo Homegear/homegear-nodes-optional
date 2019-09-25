@@ -1,0 +1,13 @@
+{
+  "notification/telegram-bot.hni": {
+    "telegram-bot": {
+      "label": {
+        "name": "Name",
+        "botId": "Bot id"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Überwacht Nachrichten an einen Telegram-Bot um auf kommandos zu reagieren</p>",
+      "help": "<p>Überwacht Nachrichten an einen Telegram-Bot um auf kommandos zu reagieren.</p>"
+    }
+  }
+}

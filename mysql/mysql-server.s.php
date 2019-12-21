@@ -133,8 +133,15 @@ class HomegearNode extends HomegearNodeBase
         try {
 
             $stmt = $this->db->prepare($query);
-            $stmt->execute($data);
+            $res = $stmt->execute($data);
+
+            if(preg_match('/^(insert|update|delete)/i', $query)){
+                return $res;
+            }
+
+            //we should have data, return it
             return $stmt->fetchAll();
+
 
 
         } catch (\PDOException $e) {

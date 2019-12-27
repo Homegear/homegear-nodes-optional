@@ -1,7 +1,7 @@
 <script type="text/x-homegear">
 {
     "name": "mysql",
-    "readableName": "mySQL",
+    "readableName": "MySQL",
     "version": "0.0.1",
     "maxThreadCount": 0
 }

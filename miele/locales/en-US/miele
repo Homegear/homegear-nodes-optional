@@ -1,0 +1,18 @@
+{
+  "smarthome/miele.hni": {
+    "miele": {
+      "label": {
+        "name": "Name",
+        "userid": "Username",
+        "password": "Password",
+        "country": "Country",
+        "clientid": "Client ID",
+        "clientsecret": "Client secret",
+        "language": "Language"
+      },
+      "tip": "Tip: Contact Miele to get your client ID and client secret.",
+      "paletteHelp": "<p>Get events from Miele devices.</p>",
+      "help": "<p>This connects to the Miele API server and polls it for events from Miele devices.</p><p>In order to use this node, you need to get a client ID and client secret from Miele. Please make sure you pair your devices to the Miele mobile app first, otherwise they won't be visible.</p><p>Thanks to oklona (<a href=\"https://github.com/oklona\">https://github.com/oklona</a>) for his PHP implementation of the API.</p>"
+    }
+  }
+}

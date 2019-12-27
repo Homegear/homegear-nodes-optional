@@ -2,7 +2,7 @@
 {
     "name": "slack",
     "readableName": "Slack",
-    "version": "0.0.1",
+    "version": "1.0.0-2",
     "maxThreadCount": 0
 }
 </script>
@@ -34,7 +34,7 @@
             message: {value:""},
         },
         inputs:1,
-        outputs:0,
+        outputs:1,
         align: "right",
         icon: "white-globe.png",
         label: function() {

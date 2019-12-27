@@ -25,7 +25,7 @@ class HomegearNode extends HomegearNodeBase
         
         // check if directory exists
         if (!$ftp->isDir($config['path'])) {
-            $ftp->mkdir($config['path']);
+            $ftp->mkdir($config['path'],true);
         }
 
         // change to directory

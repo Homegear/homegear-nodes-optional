@@ -1,0 +1,16 @@
+Source: node-blue-node-tvheadend
+Maintainer: Sathya Laufer <sathya@laufers.net>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 8)
+Homepage: https://github.com/Homegear/homegear-nodes-optional/tree/dev/tvheadend/README.md
+
+Package: node-blue-node-tvheadend
+Architecture: all
+Section: misc
+Priority: optional
+Homepage: https://github.com/Homegear/homegear-nodes-optional/tree/dev/tvheadend/README.md
+Depends: ${shlibs:Depends}, ${misc:Depends}, homegear (>= 0.7.0)
+Description: Provides a tvheadend node for Node-BLUE.
+ This packet adds a tvheadend node to Node-BLUE.

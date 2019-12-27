@@ -1,0 +1,89 @@
+<script type="text/x-homegear">
+{
+    "name": "pjlink",
+    "readableName": "pjlink",
+    "version": "1.0.0-1",
+    "maxThreadCount": 0
+}
+</script>
+<script type="text/x-red" data-template-name="pjlink">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="pjlink.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]pjlink.label.name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-projector"><i class="fa fa-globe"></i> <span data-i18n="pjlink.label.projector"></span></label>
+        <input type="text" id="node-input-projector" data-i18n="[placeholder]pjlink.label.projector">
+    </div>
+    <div class="form-row">
+        <label for="node-input-port"><i class="fa fa-tasks"></i> <span data-i18n="pjlink.label.port"></span></label>
+        <input type="number" id="node-input-port" data-i18n="[placeholder]pjlink.label.port">
+    </div>
+    <div class="form-row">
+        <label for="node-input-timeout"><i class="fa fa-tasks"></i> <span data-i18n="pjlink.label.timeout"></span></label>
+        <input type="number" id="node-input-timeout" data-i18n="[placeholder]pjlink.label.timeout">
+    </div>   
+    <div class="form-row">
+        <label for="node-input-command"><i class="fa fa-tasks"></i> <span data-i18n="pjlink.label.command"></span></label>
+        <input type="text" id="node-input-command" data-i18n="[placeholder]pjlink.label.command">
+    </div> 
+    <div class="form-row">
+        <label for="node-input-param"><i class="fa fa-tasks"></i> <span data-i18n="pjlink.label.param"></span></label>
+        <input type="text" id="node-input-param" data-i18n="[placeholder]pjlink.label.param">
+    </div>                  
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('pjlink',{
+        color:"#3399FF",
+        category: 'multimedia',
+        namespace: 'multimedia',
+        defaults: {
+            name: {value:""},
+            projector: {value:""},
+            port: {value:4352},
+            timeout: {value:15},
+            command: {value:""},
+            param: {value:""},
+        },
+        inputs:1,
+        outputs:1,
+        align: "right",
+        icon: "pjlink.png",
+        label: function() {
+            if(this.name) return this.name;
+            return this.projector;
+        },
+        oneditprepare: function() {
+            var that = this;
+            $( "#node-input-inputs" ).spinner({
+                min:1
+            });
+            $( "#node-input-outputs" ).spinner({
+                min:1
+            });
+
+            this.editor = RED.editor.createEditor({
+                id: 'node-input-message-editor',
+                mode: {path:"ace/mode/text", inline:true},
+                value: $("#node-input-message").val(),
+            });
+
+            this.editor.focus();
+        },
+        oneditsave: function() {
+            $("#node-input-message").val(this.editor.getValue());
+            delete this.editor;
+        },
+        oneditresize: function(size) {
+            var rows = $("#dialog-form>div:not(.node-text-editor-row)");
+            var height = $("#dialog-form").height();
+            for (var i=0;i<rows.size();i++) {
+                height -= $(rows[i]).outerHeight(true);
+            }
+            var editorRow = $("#dialog-form>div.node-text-editor-row");
+            height -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
+            $(".node-text-editor").css("height",height+"px");
+            this.editor.resize();
+        }
+    });
+</script>

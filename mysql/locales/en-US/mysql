@@ -1,0 +1,14 @@
+{
+  "mysql/mysql.hni": {
+    "mysql": {
+      "label": {
+        "name": "Name",
+        "server": "Server"
+      },
+      "database": "database",
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Allows you to query a mySQL server.</p>",
+      "help": "<p>The query is expected in <code>$message['topic']</code>. <code>$message['payload']</code> could be empty.</p><p>The Node uses prepared statements, so please use <code>?</code> placeholders in your query and provide the query data via the payload. If you only use one placeholder, the value could simply be in <code>$message['payload']</code>, otherwise please provide an array with data.</p><p><b>Example:</b><br><code>$message['topic'] = \"SELECT name FROM tab WHERE val1 = ? AND val2 = ?\"<br>$message['payload'] = ['foo', 'bar'];</code><br><br><code>$message['topic'] = \"SELECT name FROM tab WHERE val1 = ?\"<br>$message['payload'] = 'foo';</code></p>"
+    }
+  }
+}

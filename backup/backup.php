@@ -11,21 +11,22 @@ class HomegearNode extends HomegearNodeBase
 
     public function input(array $localNodeInfo, int $inputIndex, array $message)
     {
-        $result = $this->hg->managementCreateBackup();
-        $tmp = $this->_getCommandStatus($this->hg);
-        if ($result != '') {
-            $this->output(0, array('payload' => $result));
+        array_map('unlink', glob("/tmp/*_homegear-backup.tar.gz"));
+        $id = $this->hg->managementCreateBackup();
+        $result = $this->_getCommandStatus($id);
+        if ($result['exitCode'] == 0) {
+            $this->output(0, array('payload' => $result['metadata']['filename']));
             return;
         }
         $this->output(0, array('payload' => 'error creating backup'));
         return;
     }
 
-    private function _getCommandStatus($hg) {
-        $result = $hg->managementGetCommandStatus();
-        while ($result[0] == 256) {
+    private function _getCommandStatus($id) {
+        $result = $this->hg->managementGetCommandStatus($id);
+        while (!$result['finished']) {
             sleep(1);
-            $result = $hg->managementGetCommandStatus();
+            $result = $this->hg->managementGetCommandStatus($id);
         }
         return $result;
     }

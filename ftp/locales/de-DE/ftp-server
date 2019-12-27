@@ -1,0 +1,14 @@
+{
+  "ftp/ftp-server.hni": {
+    "ftp-server": {
+    	"help": "<p>Die FTP Verbindung benötigt die Eingabe der Server-Adresse (den Domain-Namen oder eine IP-Adresse), des Ports, des entfernten Dateipfades, einen Benutzernamen und ein Passwort.<br><br>Wenn der entfernte Dateipfad auf dem Server nicht existiert wird er automatisch angelegt.</p>",
+    	"label": {
+	      "server": "Server",
+				"port": "Port",
+        "path": "Entfernter Pfad",
+				"user": "Benutzername",
+				"pwd": "Passwort"
+	    }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "multimedia/tvheadend.hni": {
+    "tvheadend": {
+      "label": {
+            "name": "Name",
+            "server": "Server",
+            "port": "Port",
+            "user": "User",
+            "password": "Password",
+            "channel": "Channel",
+            "config": "Config",
+            "duration": "Duration"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Send recording commands to a tvheadend server.</p>",
+      "help": "<p>This node sends a record command to a tvheadend server. This is a work in progress.</p>"
+    }
+  }
+}

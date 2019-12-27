@@ -1,9 +1,9 @@
 <script type="text/x-homegear">
 {
     "name": "mysql-server",
-    "readableName": "mySQL Server",
+    "readableName": "MySQL Server",
     "version": "0.0.1",
-    "maxThreadCount": 6
+    "maxThreadCount": 0
 }
 
 

@@ -1,0 +1,73 @@
+<script type="text/x-homegear">
+{
+    "name": "miele",
+    "readableName": "Miele",
+    "version": "1.0.0-1",
+    "maxThreadCount": 1
+}
+</script>
+<script type="text/x-red" data-template-name="miele">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="miele.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]miele.label.name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-userid"><i class="fa fa-user"></i> <span data-i18n="miele.label.userid"></span></label>
+        <input type="text" id="node-input-userid" data-i18n="[placeholder]miele.label.userid">
+    </div>
+    <div class="form-row">
+        <label for="node-input-password"><i class="fa fa-key"></i> <span data-i18n="miele.label.password"></span></label>
+        <input type="text" id="node-input-password" data-i18n="[placeholder]miele.label.password">
+    </div>
+    <div class="form-row">
+        <label for="node-input-country"><i class="fa fa-globe-europe"></i> <span data-i18n="miele.label.country"></span></label>
+        <input type="text" id="node-input-country" data-i18n="[placeholder]miele.label.country">
+    </div>
+    <div class="form-row">
+        <label for="node-input-clientid"><i class="fa fa-address-card"></i> <span data-i18n="miele.label.clientid"></span></label>
+        <input type="text" id="node-input-clientid" data-i18n="[placeholder]miele.label.clientid">
+    </div>
+    <div class="form-row">
+        <label for="node-input-clientsecret"><i class="fa fa-lock"></i> <span data-i18n="miele.label.clientsecret"></span></label>
+        <input type="text" id="node-input-clientsecret" data-i18n="[placeholder]miele.label.clientsecret">
+    </div>
+    <div class="form-row">
+        <label for="node-input-language"><i class="fa fa-language"></i> <span data-i18n="miele.label.language"></span></label>
+        <input type="text" id="node-input-language" data-i18n="[placeholder]miele.label.language">
+    </div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('miele',{
+        color:"#FF6064",
+        category: 'smarthome',
+        namespace: 'smarthome',
+        defaults: {
+            name: {value:""},
+            userid: {value:"api-dummy@miele.de", required: true},
+            country: {value:"en-US", required: true},
+            clientid: {value:"", required: true},
+            language: {value:"en", required: true},
+        },
+        inputs:0,
+        outputs:1,
+        icon: "miele.png",
+        label: function() {
+            if(this.name) return this.name;
+            return "miele";
+        },
+        oneditprepare: function () {
+            RED.comms.homegear().invoke("getNodeData", function(data) {$("#node-input-password").val(data.result)}, this.id, "user-password");
+            RED.comms.homegear().invoke("getNodeData", function(data) {$("#node-input-clientsecret").val(data.result)}, this.id, "clientsecret-password");
+        },
+        oneditsave: function() {
+            var password = $.trim($("#node-input-password").val());
+            if(password != "*") {
+                RED.comms.homegear().invoke("setNodeData", null, this.id, "user-password", password);
+            }
+            var clientsecret = $.trim($("#node-input-clientsecret").val());
+            if(clientsecret != "*") {
+                RED.comms.homegear().invoke("setNodeData", null, this.id, "clientsecret-password", clientsecret);
+            }
+        }
+    });
+</script>

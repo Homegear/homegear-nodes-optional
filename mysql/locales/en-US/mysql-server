@@ -1,0 +1,14 @@
+{
+   "mysql/mysql-server.hni": {
+     "mysql-server": {
+     	"help": "<p>The connection requires a server address (the FQDN or an IP-address), the port, the database, a username and a password (optional) to be added to the default configuration.<br></p>",
+     	"label": {
+ 	      "server": "Server",
+ 				"port": "Port",
+                 "database": "Database",
+ 				"user": "Username",
+ 				"pwd": "Password"
+ 	    }
+     }
+   }
+ }

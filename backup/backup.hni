@@ -2,7 +2,7 @@
 {
     "name": "backup",
     "readableName": "Backup",
-    "version": "0.0.1",
+    "version": "1.0.0-1",
     "maxThreadCount": 0
 }
 </script>

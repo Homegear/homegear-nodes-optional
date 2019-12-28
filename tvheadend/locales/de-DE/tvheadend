@@ -1,0 +1,19 @@
+{
+  "multimedia/tvheadend.hni": {
+    "tvheadend": {
+      "label": {
+            "name": "Name",
+            "server": "Server",
+            "port": "Port",
+            "user": "'Benutzer",
+            "password": "Passwort",
+            "channel": "Kanal",
+            "config": "Aufnahme-Konfiguraton",
+            "duration": "Aufnahmedauer"
+      },
+      "tip": "Tip: See the Info tab for help writing functions.",
+      "paletteHelp": "<p>Startet eine Sofortaufnahme auf einem tvheadend Server</p>",
+      "help": "<p>Diese node startet eine Sofortaufnahme auf einem tvheadend Server</p>"
+    }
+  }
+}

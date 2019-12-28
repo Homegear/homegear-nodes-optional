@@ -1,0 +1,14 @@
+{
+  "mysql/mysql.hni": {
+    "mysql": {
+      "label": {
+        "name": "Name",
+        "server": "Server"
+      },
+      "database": "Datenbank",
+      "tip": "Siehe Node-Hilfe für weitere Informationen.",
+      "paletteHelp": "<p>Ermöglicht das Senden einer SQL-Query an einen mySQL-Server.</p>",
+      "help": "<p>Die Abfrage (query= wird in <code>$message['topic']</code> erwartet. <code>$message['payload']</code> darf leer sein.</p><p>Die Parameterübergabe in Abfragen muss als 'prepared statement' erfolgen, also bitte <code>?</code> als Platzhalter vewenden und die gewünschten Daten über die 'payload' zur Verfügung stellen. Wenn es nur einen Wert gibt, kann dieser direkt in <code>$message['payload']</code> stehten - ansonsten die Daten bitte als Array übergeben.</p><p><b>Beispiele:</b><br><code>$message['topic'] = \"SELECT name FROM tab WHERE val1 = ? AND val2 = ?\"<br>$message['payload'] = ['foo', 'bar'];</code><br><br><code>$message['topic'] = \"SELECT name FROM tab WHERE val1 = ?\"<br>$message['payload'] = 'foo';</code></p>"
+    }
+  }
+}

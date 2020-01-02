@@ -12,5 +12,5 @@ Section: misc
 Priority: optional
 Homepage: https://homegear.eu
 Depends: ${shlibs:Depends}, ${misc:Depends}, homegear (>= 1.0.1)
-Description: Provides a mySQL node for Node-BLUE.
- This packet adds a mySQL node to Node-BLUE.
+Description: Provides a MySQL node for Node-BLUE.
+ This packet adds a MySQL node to Node-BLUE.

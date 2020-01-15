@@ -14,7 +14,7 @@
       },
       "tip": "Tip: See the Info tab for help writing functions.",
       "paletteHelp": "<p>Send notifications to your devices via Pushover</p>",
-      "help": "<p>A node to send messages using the Pushover API.</p><p>Use <code>$message['device']</code> to specify device with a message, overrides device specified in the node config.<br><code>$message['topic']</code> set's the title of the push message, overrides title from node config.</p>"
+      "help": "<p>A node to send messages using the Pushover API.</p><p>Use <code>$message['device']</code> to specify the receiving device.<br><code>$message['topic']</code> set's the title for the push message.<br><br><b>Caution:</b> The properties of the message object override the settings from the node config.</p>"
     }
   }
 }

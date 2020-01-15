@@ -76,7 +76,7 @@ class HomegearNode extends HomegearNodeBase
             if (!empty($message['device'])) {
                 $device = $message['device'];
             } elseif (!empty($nodeInfoLocal['info']['device'])) {
-                $device = $message['info']['device'];
+                $device = $nodeInfoLocal['info']['device'];
             }
 
             //do we have a user supplied title?
@@ -84,7 +84,7 @@ class HomegearNode extends HomegearNodeBase
             if (!empty($message['topic'])) {
                 $title = $message['topic'];
             } elseif (!empty($nodeInfoLocal['info']['title'])) {
-                $title = $message['info']['title'];
+                $title = $nodeInfoLocal['info']['title'];
             }
 
 

@@ -12,9 +12,9 @@
         "title": "Homegear",
         "device": "freilassen für alle Geräte"
       },
-      "tip": "Tip: See the Info tab for help writing functions.",
-      "paletteHelp": "<p>Send notifications to your devices via Pushover</p>",
-      "help": "<p>to fill</p>"
+      "tip": "Tip: Mehr Information im Info-Tab",
+      "paletteHelp": "<p>Nachrichten über die Pushover versenden.</p>",
+      "help": "<p>Nachrichten über die Pushover API an Endgeräte senden</p><p>Mit <code>$message['device']</code> wird das Empfangsgerät der Nachricht bestimmt.<br><code>$message['topic']</code> setzt den Titel der Nachricht.<br><br><b>Achtung:</b>Die Eigenschaften des Nachrichtenobjekts überschreiben die Einstellungen im Node.</p>"
     }
   }
 }

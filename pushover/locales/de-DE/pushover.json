@@ -13,7 +13,7 @@
         "device": "freilassen für alle Geräte"
       },
       "tip": "Tip: Mehr Information im Info-Tab",
-      "paletteHelp": "<p>Nachrichten über die Pushover versenden.</p>"
+      "paletteHelp": "<p>Nachrichten über die Pushover API versenden.</p>"
     }
   }
 }

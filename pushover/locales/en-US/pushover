@@ -13,8 +13,7 @@
         "device": "leave blank for all devices"
       },
       "tip": "Tip: See the Info tab for help writing functions.",
-      "paletteHelp": "<p>Send notifications to your devices via Pushover</p>",
-      "help": "<p>A node to send messages using the Pushover API.</p><p>Use <code>$message['device']</code> to specify the receiving device.<br><code>$message['topic']</code> set's the title for the push message.<br><br><b>Caution:</b> The properties of the message object override the settings from the node config.</p>"
+      "paletteHelp": "<p>Send notifications to your devices via Pushover</p>"
     }
   }
 }

@@ -1,0 +1,15 @@
+Source: node-blue-node-pushover
+Maintainer: Patrik Mayer <patrik.mayer@codm.de>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 8)
+Homepage: https://allgeek.de
+
+Package: node-blue-node-pushover
+Architecture: all
+Section: misc
+Priority: optional
+Homepage: https://homegear.eu
+Depends: ${shlibs:Depends}, ${misc:Depends}, homegear (>= 1.0.1)
+Description: Push messages to your device using https://pushover.net/

@@ -1,0 +1,54 @@
+<script type="text/x-homegear">
+{
+    "name": "pushover",
+    "readableName": "pushover",
+    "version": "0.0.1",
+    "maxThreadCount": 0
+}
+
+</script>
+<script type="text/x-red" data-template-name="pushover">
+    <div class="form-row">
+        <label for="node-input-title"><i class="fa fa-flag"></i> <span data-i18n="pushover.label.title"></span></label>
+        <input type="text" id="node-input-title" data-i18n="[placeholder]pushover.placeholder.title">
+    </div>
+    <div class="form-row">
+        <label for="node-input-device"><i class="fa fa-mobile"></i> <span data-i18n="pushover.label.device"></span></label>
+        <input type="text" id="node-input-device" data-i18n="[placeholder]pushover.placeholder.device">
+    </div>
+    <div class="form-row">
+        <label for="node-input-userKey"><i class="fa fa-user"></i> <span data-i18n="pushover.label.userKey"></span></label>
+        <input type="text" id="node-input-userKey">
+    </div>
+    <div class="form-row">
+        <label for="node-input-apiToken"><i class="fa fa-key"></i> <span data-i18n="pushover.label.apiToken"></span></label>
+        <input type="text" id="node-input-apiToken">
+    </div>
+    <br>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="pushover.label.name"></span></label>
+        <input type="text" id="node-input-name">
+    </div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('pushover', {
+        color: "#209BF0",
+        category: 'notification',
+        namespace: 'pushover',
+        defaults: {
+            name: {value:""},
+            title: {value: ""},
+            device: {value: ""},
+            userKey: {value: "", required: true},
+            apiToken: {value: "", required: true}
+        },
+        inputs: 1,
+        outputs: 0,
+        align: "right",
+        icon: "pushover.png",
+        label: function () {
+            if (this.name) return this.name;
+            return "Pushover";
+        }
+    });
+</script>

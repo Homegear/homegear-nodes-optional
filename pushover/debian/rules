@@ -14,7 +14,7 @@ override_dh_auto_install:
 	dh_prep
 	dh_installdirs
 	mkdir -p $(CURDIR)/debian/node-blue-node-pushover/var/lib/homegear/node-blue/nodes/pushover
-	cp -R $(CURDIR)/*.php $(CURDIR)/*.hni $(CURDIR)/locales $(CURDIR)/debian/node-blue-node-mysql/var/lib/homegear/node-blue/nodes/pushover/
+	cp -R $(CURDIR)/*.php $(CURDIR)/*.hni $(CURDIR)/locales $(CURDIR)/debian/node-blue-node-pushover/var/lib/homegear/node-blue/nodes/pushover/
 	
 %:
 	dh $@

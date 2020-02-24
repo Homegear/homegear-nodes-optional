@@ -11,5 +11,5 @@ Architecture: all
 Section: misc
 Priority: optional
 Homepage: https://homegear.eu
-Depends: ${shlibs:Depends}, ${misc:Depends}, homegear (>= 1.0.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, homegear (>= 0.7)
 Description: Push messages to your device using https://pushover.net/

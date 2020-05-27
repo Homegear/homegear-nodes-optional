@@ -1,0 +1,54 @@
+<script type="text/x-homegear">
+{
+    "name": "variable-profiles",
+    "readableName": "Variable profiles",
+    "version": "0.0.1",
+    "maxThreadCount": 0
+}
+</script>
+<script type="text/x-red" data-template-name="variable-profiles">
+    <div class="form-row">
+        <label style="width: 130px;" for="node-variable-profiles-name"><i class="fa fa-tag"></i> <span data-i18n="variable-profiles.label.name"></span></label>
+        <input style="width: 65%;" type="text" id="node-input-name" data-i18n="[placeholder]variable-profiles.label.name">
+    </div>
+    <div id="node-variable-profiles-profile-container" class="form-row">
+        <label style="width: 130px;" for="node-variable-profiles-profile"><i class="fa fa-id-badge"></i> <span data-i18n="variable-profiles.label.profile"></span></label>
+        <select type="text" id="node-input-profile" style="display: inline-block; width: 65%;">
+            <option></option>
+        </select>
+    </div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('variable-profiles',{
+        category: 'function',
+        namespace: 'variable-profiles',
+        color:"#A6BBCF",
+        inputs:1,
+        outputs:1,
+        icon: "template.svg",
+        label: function() {
+            if(this.name) return this.name;
+            return "Variable profiles";
+        },
+        defaults: {
+            name: {value:""},
+            profile: { value: "", required: true }
+        },
+        oneditprepare: function() {
+            var that = this;
+            getProfiles();
+
+            function getProfiles() {
+                RED.comms.homegear().invoke("getAllVariableProfiles", function(data) {
+                    $.each(data.result, function(key, value) {
+                        if (that.profile != '' && that.profile == this.id) {
+                            $('#node-input-profile').append($("<option selected />").val(this.id).text(this.name));
+                        } else {
+                            $('#node-input-profile').append($("<option />").val(this.id).text(this.name));
+                        }
+                    });
+                },  "'+locale[0]+'");
+            }
+        }
+    });
+</script>

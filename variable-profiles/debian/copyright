@@ -1,5 +1,5 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: node-blue-node-variable-profile
+Upstream-Name: node-blue-node-variable-profiles
 Upstream-Contact: Michael Scheffler <ms@easy-smarthome.de>
 
 Files: *

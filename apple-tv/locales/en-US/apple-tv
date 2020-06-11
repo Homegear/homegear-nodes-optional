@@ -1,0 +1,11 @@
+{
+  "apple-tv/apple-tv.hni": {
+    "apple-tv": {
+      "input1Description": "Turn on or off your Apple TV.",
+      "output1Description": "Outputs <code>true</code> when connected and <code>false</code> when disconnected.",
+      "output2Description": "Outputs power state changes of the Apple TV.",
+      "output3Description": "Outputs play state changes of the Apple TV.",
+      "paletteHelp": "<p>Simple Apple TV node.</p>"
+    }
+  }
+}

@@ -59,6 +59,19 @@ class PushNodeOutput(PushListener):
 
 	def playstatus_update(self, updater, playstatus: Playing) -> None:
 		hg.nodeOutput(2, {"payload": playstatus.device_state.name})
+		hg.nodeOutput(3, {"payload": {
+			"state": playstatus.device_state.name,
+			"album": playstatus.album,
+			"artist": playstatus.artist,
+			"genre": playstatus.genre,
+			"hash": playstatus.hash,
+			"media_type": playstatus.media_type.name,
+			"position": playstatus.position,
+			"repeat": playstatus.repeat.name,
+			"shuffle": playstatus.shuffle.name,
+			"title": playstatus.title,
+			"total_time": playstatus.total_time
+		}})
 
 	def playstatus_error(self, updater, exception: Exception) -> None:
 		pass

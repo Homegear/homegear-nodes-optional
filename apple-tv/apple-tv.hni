@@ -29,7 +29,7 @@
                 types: ["boolean"]
             }
         ],
-        outputs:3,
+        outputs:4,
         outputInfo: [
             {
                 label: "INIT",
@@ -42,6 +42,10 @@
             {
                 label: "PLAY",
                 types: ["string"]
+            },
+            {
+                label: "CONT",
+                types: ["struct"]
             }
         ],
         icon: "font-awesome/fa-television",

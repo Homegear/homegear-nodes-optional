@@ -2,6 +2,7 @@
   "apple-tv/apple-tv.hni": {
     "apple-tv": {
       "input1Description": "Schaltet das Apple TV ein oder aus.",
+      "input2Description": "Führt einen Fernbedienungsbefehl aus.",
       "output1Description": "Gibt <code>true</code> aus, wenn die Verbindung zum Apple TV hergestellt wurde und <code>false</code>, wenn sie getrennt wurde.",
       "output2Description": "Gibt aus, ob das Apple TV ein- oder ausgeschaltet wurde.",
       "output3Description": "Gibt Änderungen des Abspielstatus aus.",

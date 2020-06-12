@@ -51,25 +51,89 @@ async def nodeInputThreadSafe(nodeInfo, inputIndex, message):
 			await atv.power.turn_on()
 		else:
 			await atv.power.turn_off()
-
+	if inputIndex == 1:
+		command = message["payload"]
+		if command == "down":
+			await atv.remote_control.down()
+		elif command == "home":
+			await atv.remote_control.home()
+		elif command == "home_hold":
+			await atv.remote_control.home_hold()
+		elif command == "left":
+			await atv.remote_control.left()
+		elif command == "menu":
+			await atv.remote_control.menu()
+		elif command == "next":
+			await atv.remote_control.next()
+		elif command == "pause":
+			await atv.remote_control.pause()
+		elif command == "play":
+			await atv.remote_control.play()
+		elif command == "play_pause":
+			await atv.remote_control.play_pause()
+		elif command == "previous":
+			await atv.remote_control.previous()
+		elif command == "right":
+			await atv.remote_control.right()
+		elif command == "select":
+			await atv.remote_control.select()
+		elif command == "set_position":
+			if "position" in message.keys():
+				await atv.remote_control.set_position(message["position"])
+		elif command == "set_repeat":
+			if "state" in message.keys():
+				state = message["state"]
+				if state == "all":
+					await atv.remote_control.set_repeat(const.RepeatState.All)
+				elif state == "off":
+					await atv.remote_control.set_repeat(const.RepeatState.Off)
+				elif state == "track":
+					await atv.remote_control.set_repeat(const.RepeatState.Track)
+		elif command == "set_shuffle":
+			if "state" in message.keys():
+				state = message["state"]
+				if state == "albums":
+					await atv.remote_control.set_shuffle(const.ShuffleState.Albums)
+				elif state == "off":
+					await atv.remote_control.set_shuffle(const.ShuffleState.Off)
+				elif state == "songs":
+					await atv.remote_control.set_shuffle(const.ShuffleState.Songs)
+		elif command == "skip_backward":
+			await atv.remote_control.skip_backward()
+		elif command == "skip_forward":
+			await atv.remote_control.skip_forward()
+		elif command == "stop":
+			await atv.remote_control.stop()
+		elif command == "suspend":
+			await atv.remote_control.suspend()
+		elif command == "top_menu":
+			await atv.remote_control.top_menu()
+		elif command == "up":
+			await atv.remote_control.up()
+		elif command == "volume_down":
+			await atv.remote_control.volume_down()
+		elif command == "volume_up":
+			await atv.remote_control.volume_up()
+		elif command == "wakeup":
+			await atv.remote_control.wakeup()
 
 class PushNodeOutput(PushListener):
 	def __init__(self, atv):
 		self.atv = atv
 
 	def playstatus_update(self, updater, playstatus: Playing) -> None:
-		hg.nodeOutput(2, {"payload": playstatus.device_state.name})
+		hg.nodeOutput(2, {"payload": playstatus.device_state.name.lower()})
 		hg.nodeOutput(3, {"payload": {
-			"state": playstatus.device_state.name,
+			"state": playstatus.device_state.name.lower(),
 			"album": playstatus.album,
 			"app": atv.metadata.app,
 			"artist": playstatus.artist,
 			"genre": playstatus.genre,
 			"hash": playstatus.hash,
-			"media_type": playstatus.media_type.name,
+			"media_type": playstatus.media_type.name.lower(),
 			"position": playstatus.position,
-			"repeat": playstatus.repeat.name,
-			"shuffle": playstatus.shuffle.name,
+			"repeat": playstatus.repeat.name.lower(),
+			"shuffle": playstatus.shuffle.name.lower(),
 			"title": playstatus.title,
 			"total_time": playstatus.total_time
 		}})

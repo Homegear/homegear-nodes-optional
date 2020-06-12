@@ -1,1 +1,47 @@
-<p>Automatically connects to an Apple TV in the current network and listens for events.</p>
+<p>Automatically connects to an Apple TV in the current network, sends commands to it and listens for events.</p>
+<h3>Inputs</h3>
+<dl class="message-properties">
+	<dt>PWR</dt>
+	<dd>Turns the Apple TV off or on.</dd>
+	<dt>RMT</dt>
+	<dd>
+		Sends remote control commands to your Apple TV. You can send the following commands as <code>string</code> in <code>$message['payload']</code>:
+		<ul>
+			<li><code>down</code>: Down key</li>
+			<li><code>home</code>: Home key</li>
+			<li><code>home_hold</code>: Hold home key</li>
+			<li><code>left</code>: Left key</li>
+			<li><code>menu</code>: Menu key</li>
+			<li><code>next</code>: Next key</li>
+			<li><code>pause</code>: Pause key</li>
+			<li><code>play</code>: Play key</li>
+			<li><code>play_pause</code>: Toggle between play and pause</li>
+			<li><code>previous</code>: Previous key</li>
+			<li><code>right</code>: Right key</li>
+			<li><code>select</code>: Select key</li>
+			<li><code>set_position</code>: Seek to a playback position. The position must be provided as <code>integer</code> in <code>$message['position']</code>.</li>
+			<li><code>set_repeat</code>: Set repeat setting. The setting must be provided as <code>string</code> in <code>$message['state']</code>. Possible values are <code>all</code>, <code>off</code> and <code>track</code>.</li>
+			<li><code>set_shuffle</code>: Set shuffle setting. The setting must be provided as <code>string</code> in <code>$message['state']</code>. Possible values are <code>albums</code>, <code>off</code> and <code>song</code>.</li>
+			<li><code>skip_backward</code>: Skips a time interval backward. The time interval is defined by the current app, but is typically between 15-30s.</li>
+			<li><code>skip_forward</code>: Skips a time interval forward. The time interval is defined by the current app, but is typically between 15-30s.</li>
+			<li><code>stop</code>: Stop key</li>
+			<li><code>suspend</code>: Suspend the device.</li>
+			<li><code>top_menu</code>: Go to main manu (same as long pressing the menu key)</li>
+			<li><code>up</code>: Up key</li>
+			<li><code>volume_down</code>: Volume down key</li>
+			<li><code>volume_up</code>: Volume up key</li>
+			<li><code>wakeup</code>: Wake up the device</li>
+		</ul>
+	</dd>
+</dl>
+<h3>Outputs</h3>
+<dl class="message-properties">
+	<dt>INIT</dt>
+	<dd>Outputs changes of the connection state.</dd>
+	<dt>PWR</dt>
+	<dd>Outputs <code>true</code> when the Apple TV is switched on and <code>false</code> when it is switched off.</dd>
+	<dt>PLAY</dt>
+	<dd>Outputs the current playback state as string. Possible values are <code>idle</code>, <code>loading</code>, <code>paused</code>, <code>playing</code>, <code>seeking</code> and <code>stopped</code>.</dd>
+	<dt>CONT</dt>
+	<dd>Outputs current playback information as a struct on changes.</dd>
+</dl>

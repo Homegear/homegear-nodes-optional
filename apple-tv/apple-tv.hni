@@ -22,11 +22,15 @@
             name: {name:""}
         },
         color:"#FFAAAA",
-        inputs:1,
+        inputs:2,
         inputInfo: [
             {
                 label: "PWR",
                 types: ["boolean"]
+            },
+            {
+                label: "RMT",
+                types: ["string"]
             }
         ],
         outputs:4,

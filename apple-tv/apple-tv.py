@@ -62,6 +62,7 @@ class PushNodeOutput(PushListener):
 		hg.nodeOutput(3, {"payload": {
 			"state": playstatus.device_state.name,
 			"album": playstatus.album,
+			"app": atv.metadata.app,
 			"artist": playstatus.artist,
 			"genre": playstatus.genre,
 			"hash": playstatus.hash,

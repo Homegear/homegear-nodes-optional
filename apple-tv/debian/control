@@ -11,6 +11,6 @@ Architecture: all
 Section: misc
 Priority: optional
 Homepage: https://github.com/Homegear/homegear-nodes-optional/tree/dev/apple-tv/README.md
-Depends: ${shlibs:Depends}, ${misc:Depends}, homegear (>= 0.7.0), python3-homegear, python3-pip
+Depends: ${shlibs:Depends}, ${misc:Depends}, homegear (>= 0.7.0), python3-homegear, python3-pip, libffi-dev
 Description: Provides a apple-tv node for Node-BLUE.
  Keywords: apple tv,multimedia,tv,apple

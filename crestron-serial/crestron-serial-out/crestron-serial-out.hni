@@ -1,0 +1,208 @@
+<script type="text/x-homegear">
+{
+    "name": "crestron-serial-out",
+    "readableName": "Crestron serial input",
+    "version": "1.0.0",
+    "coreNode": false,
+    "maxThreadCount": 0
+}
+</script>
+<!--
+  Copyright JS Foundation and other contributors, http://js.foundation
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<script type="text/x-red" data-template-name="crestron-serial-out">
+    <div class="form-row node-input-serial">
+        <label for="node-input-serial"><i class="fa fa-random"></i> <span data-i18n="crestron-serial-out.label.serialport"></span></label>
+        <input type="text" id="node-input-serial">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]node-red:common.label.name">
+    </div>
+    <div class="form-row node-input-variables-container-row">
+        <input type="hidden" id="node-input-inputs"/>
+        <label for="node-input-variables-container" style="width: 100%"><i class="fa fa-clock-o"></i> <span data-i18n="crestron-serial-out.label.variables"></span></label>
+        <ol id="node-input-variables-container"></ol>
+    </div>
+</script>
+<script type="text/javascript">
+(function() {
+    RED.nodes.registerType('crestron-serial-out',{
+        category: 'smarthome',
+        namespace: 'crestron-serial',
+        defaults: {
+            name: {name:""},
+            serial: {type:"crestron-serial-port",required:true},
+            variables: {value:[{n:"", vt:"0", v:"1"}]},
+            inputs: {value:1}
+        },
+        color:"#ffffff",
+        inputs:1,
+        inputInfo: function(i) {
+            if(this.variables && i < this.variables.length) {
+                var variable = this.variables[i];
+                if(!variable.hasOwnProperty('vt') || !variable.hasOwnProperty('n') || !variable.hasOwnProperty('v')) {
+                    return {label: i+''};
+                }
+                var type;
+                if(variable.vt == 0) type = "Digital";
+                else if(variable.vt == 1) type = "Analog";
+                return {
+                    types: [variable.vt == 0 ? "bool" : "int"],
+                    label: variable.n ? variable.n : variable.v + '',
+                    description: "<b>Type:</b> " + type + "<br/><b>Index:</b> " + variable.v
+                }
+            }
+            else return {label: i+''};
+        },
+        outputs:0,
+        icon: "crestron.png",
+        label: function() {
+            var serialNode = RED.nodes.node(this.serial);
+            return this.name||(serialNode?serialNode.label().split(":")[0]:"crestron-serial-out");
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            var typeLabelText = this._("crestron-serial-in.label.type");
+            var nameLabelText = this._("common.label.name");
+            var indexLabelText = this._("crestron-serial-in.label.index");
+
+            var inputCount = $("#node-input-inputs").val("{}");
+
+            $("#node-input-variables-container").css('min-height','150px').css('min-width','600px').editableList({
+                addItem: function(container,i,opt) {
+                    if (!opt.hasOwnProperty('v')) {
+                        opt.v = {};
+                    }
+                    var variable = opt.v;
+                    if (!variable.hasOwnProperty('vt')) {
+                        variable.vt = '0';
+                    }
+                    if (!variable.hasOwnProperty('n')) {
+                        variable.n = '';
+                    }
+                    if (!variable.hasOwnProperty('v')) {
+                        variable.v = '';
+                    }
+                    if (!opt.hasOwnProperty('i')) {
+                        opt._i = Math.floor((0x99999-0x10000)*Math.random()).toString(16)
+                    }
+                    var row = $('<div/>').appendTo(container);
+                    var nameLabel = $('<span/>',{class:"node-input-variable-name-label"}).text(" "+nameLabelText+" ").appendTo(row);
+                    var nameField = $('<input/>',{class:"node-input-variable-name",type:"text",maxlength:"5",style:"margin-left: 5px; width: 60px;"}).appendTo(row);
+                    var typeField = $('<select/>',{class:"node-input-variable-type", style:"width:70px; margin-left: 5px; text-align: center;"}).appendTo(row);
+                    typeField.append($("<option></option>").val("Digital").text("Digital"));
+                    typeField.append($("<option></option>").val("Analog").text("Analog"));
+                    typeField.append($("<option></option>").val("0xFC").text("0xFC"));
+                    typeField.append($("<option></option>").val("0xFD").text("0xFD"));
+                    var indexLabel = $('<span/>',{class:"node-input-variable-index-label"}).text(" "+indexLabelText+" ").appendTo(row);
+                    var indexField = $('<input/>',{class:"node-input-variable-index",type:"text",style:"margin-left: 5px; width: 60px;"}).appendTo(row);
+                    var finalspan = $('<span/>',{style:"float: right; margin-top: 6px;"}).appendTo(row);
+                    finalspan.append(' &#8594; <span class="node-input-index">'+i+'</span> ');
+
+                    if(variable.vt == 0) typeField.val('Digital');
+                    else if(variable.vt == 1) typeField.val('Analog');
+                    else if(variable.vt == 2) typeField.val('0xFC');
+                    else if(variable.vt == 3) typeField.val('0xFD');
+                    nameField.val(variable.n);
+                    indexField.val(variable.v);
+
+                    var currentInputs = JSON.parse(inputCount.val()||"{}");
+                    currentInputs[opt.hasOwnProperty('i')?opt.i:opt._i] = i;
+                    inputCount.val(JSON.stringify(currentInputs));
+
+                    function updateVisibility(type) {
+                        if(type == 'Digital' || type == 'Analog') {
+                            indexLabel.show();
+                            indexField.show();
+                        } else {
+                            indexLabel.hide();
+                            indexField.hide();
+                        }
+                    }
+
+                    function updateVisibilityEvent(e) {
+                        if(!e) return;
+                        updateVisibility($(e.target).val());
+                    }
+                    
+                    updateVisibility(typeField.val());
+                    typeField.on('click', updateVisibilityEvent);
+                },
+                removeItem: function(opt) {
+                    var currentInputs = JSON.parse(inputCount.val()||"{}");
+                    if (opt.hasOwnProperty('i')) {
+                        currentInputs[opt.i] = -1;
+                    } else {
+                        delete currentInputs[opt._i];
+                    }
+                    var rules = $("#node-input-variables-container").editableList('items');
+                    rules.each(function(i) {
+                        $(this).find(".node-input-index").html(i);
+                        var data = $(this).data('data');
+                        currentInputs[data.hasOwnProperty('i')?data.i:data._i] = i;
+                    });
+                    inputCount.val(JSON.stringify(currentInputs));
+                },
+                sortItems: function(variables) {
+                    var currentInputs = JSON.parse(inputCount.val()||"{}");
+                    var variables = $("#node-input-variables-container").editableList('items');
+                    variables.each(function(i) {
+                        $(this).find(".node-input-index").html(i);
+                        var data = $(this).data('data');
+                        currentInputs[data.hasOwnProperty('i')?data.i:data._i] = i;
+                    });
+                    inputCount.val(JSON.stringify(currentInputs));
+                },
+                sortable: true,
+                removable: true
+            });
+
+            for (var i=0;i<this.variables.length;i++) {
+                var variable = this.variables[i];
+                $("#node-input-variables-container").editableList('addItem',{v:variable,i:i});
+            }
+        },
+        oneditsave: function() {
+            var node = this;
+
+            var variables = $("#node-input-variables-container").editableList('items');
+            node.variables = [];
+            variables.each(function(i) {
+                var variableData = $(this).data('data');
+                var variable = $(this);
+                var typeString = variable.find(".node-input-variable-type").val();
+                var type = 0;
+                if(typeString == 'Digital') type = 0;
+                else if(typeString == 'Analog') type = 1;
+                else if(typeString == '0xFC') type = 2;
+                else if(typeString == '0xFD') type = 3;
+                var name = variable.find(".node-input-variable-name").val();
+                var index = variable.find(".node-input-variable-index").val();
+                node.variables.push({vt:type,n:name,v:index});
+            });
+        },
+        oneditresize: function(size) {
+            var rows = $("#dialog-form>div:not(.node-input-variables-container-row)");
+            var height = size.height;
+            for (var i=0;i<rows.size();i++) {
+                height -= $(rows[i]).outerHeight(true);
+            }
+            var editorRow = $("#dialog-form>div.node-input-variables-container-row");
+            height -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
+            $("#node-input-variables-container").editableList('height',height);
+        }
+    });
+})();
+</script>

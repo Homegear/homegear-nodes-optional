@@ -20,9 +20,9 @@ crestron_serial_port_la_LDFLAGS =-module -avoid-version -shared
 crestron_ladir = $(libdir)
 crestron_la_DATA = crestron-serial-in/crestron-serial-in.hni crestron-serial-out/crestron-serial-out.hni crestron-serial-port/crestron-serial-port.hni crestron.png
 locale_en_usdir = $(libdir)/locales/en-US
-locale_en_us_DATA = crestron-serial-in/locales/en-US/crestron-serial-in crestron-serial-out/locales/en-US/crestron-serial-out crestron-serial-port/locales/en-US/crestron-serial-port
+locale_en_us_DATA = crestron-serial-in/locales/en-US/crestron-serial-in crestron-serial-out/locales/en-US/crestron-serial-out crestron-serial-port/locales/en-US/crestron-serial-port crestron-serial-in/locales/en-US/crestron-serial-in.help.html crestron-serial-out/locales/en-US/crestron-serial-out.help.html crestron-serial-port/locales/en-US/crestron-serial-port.help.html
 locale_de_dedir = $(libdir)/locales/de-DE
-locale_de_de_DATA = crestron-serial-in/locales/de-DE/crestron-serial-in crestron-serial-out/locales/de-DE/crestron-serial-out crestron-serial-port/locales/de-DE/crestron-serial-port
+locale_de_de_DATA = crestron-serial-in/locales/de-DE/crestron-serial-in crestron-serial-out/locales/de-DE/crestron-serial-out crestron-serial-port/locales/de-DE/crestron-serial-port crestron-serial-in/locales/de-DE/crestron-serial-in.help.html crestron-serial-out/locales/de-DE/crestron-serial-out.help.html crestron-serial-port/locales/de-DE/crestron-serial-port.help.html
 
 install-exec-hook:
 	rm -f $(DESTDIR)$(libdir)/crestron-serial-in.la

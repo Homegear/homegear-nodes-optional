@@ -137,7 +137,7 @@ void CrestronSerialOut::input(const Flows::PNodeInfo info, uint32_t index, const
       parameters->push_back(payload);
 
       invokeNodeMethod(_serial, "write", parameters, false);
-      if (*variablesIterator->second->lastValue != *payload) {
+      if (!variablesIterator->second->lastValue || *variablesIterator->second->lastValue != *payload) {
         setNodeData("output" + std::to_string(variablesIterator->second->index), payload);
         variablesIterator->second->lastValue = payload;
       }
@@ -149,7 +149,7 @@ void CrestronSerialOut::input(const Flows::PNodeInfo info, uint32_t index, const
       parameters->push_back(payload);
 
       invokeNodeMethod(_serial, "write", parameters, false);
-      if (*variablesIterator->second->lastValue != *payload) {
+      if (!variablesIterator->second->lastValue || *variablesIterator->second->lastValue != *payload) {
         setNodeData("output" + std::to_string(variablesIterator->second->index), payload);
         variablesIterator->second->lastValue = payload;
       }

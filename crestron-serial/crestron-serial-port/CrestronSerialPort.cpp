@@ -142,13 +142,29 @@ Flows::PVariable CrestronSerialPort::getConfigParameterIncoming(std::string name
 void CrestronSerialPort::reopen() {
   try {
     _serial->closeDevice();
+
+    setConnectionState(false);
+
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     _out->printInfo("Opening serial device " + _serialPort);
     _serial->openDevice(_evenParity, _oddParity, false, _dataBits, _stopBits == 2);
     _out->printInfo("Serial device opened.");
+
+    setConnectionState(true);
   }
   catch (const std::exception &ex) {
     _out->printEx(__FILE__, __LINE__, __PRETTY_FUNCTION__, ex.what());
+  }
+}
+
+void CrestronSerialPort::setConnectionState(bool state) {
+  auto parameters = std::make_shared<Flows::Array>();
+  parameters->push_back(std::make_shared<Flows::Variable>(state));
+
+  std::lock_guard<std::mutex> nodesGuard(_nodesMutex);
+  for(auto& node : _nodes)
+  {
+    invokeNodeMethod(node.first, "setConnectionState", parameters, false);
   }
 }
 

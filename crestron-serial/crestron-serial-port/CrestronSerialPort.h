@@ -80,6 +80,7 @@ private:
 
     void listenThread();
     void reopen();
+    void setConnectionState(bool state);
     void packetReceived(VariableType type, uint32_t index, const Flows::PVariable &value);
 
 	//{{{ RPC methods

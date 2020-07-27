@@ -41,9 +41,10 @@ namespace CrestronSerialOut {
 class CrestronSerialOut : public Flows::INode {
  public:
   CrestronSerialOut(std::string path, std::string nodeNamespace, std::string type, const std::atomic_bool *frontendConnected);
-  virtual ~CrestronSerialOut();
+  ~CrestronSerialOut() override;
 
-  virtual bool init(Flows::PNodeInfo info);
+  bool init(Flows::PNodeInfo info) override;
+  void configNodesStarted() override;
  private:
   enum class VariableType {
     kDigital = 0,
@@ -55,9 +56,9 @@ class CrestronSerialOut : public Flows::INode {
   struct VariableInfo
   {
     VariableType type = VariableType::kDigital;
-    uint32_t inputIndex = 0;
+    uint32_t outputIndex = 0;
     uint32_t index = 0;
-    std::vector<uint8_t> lastValue;
+    Flows::PVariable lastValue;
   };
 
   std::string _serial;
@@ -66,6 +67,7 @@ class CrestronSerialOut : public Flows::INode {
   virtual void input(const Flows::PNodeInfo info, uint32_t index, const Flows::PVariable message);
 
   //{{{ RPC methods
+  Flows::PVariable packetReceived(Flows::PArray parameters);
   Flows::PVariable setConnectionState(Flows::PArray parameters);
   //}}}
 };

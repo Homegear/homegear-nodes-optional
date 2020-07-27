@@ -43,10 +43,10 @@ class CrestronSerialIn: public Flows::INode
 {
  public:
   CrestronSerialIn(std::string path, std::string nodeNamespace, std::string type, const std::atomic_bool* frontendConnected);
-  virtual ~CrestronSerialIn();
+  ~CrestronSerialIn() override;
 
-  virtual bool init(Flows::PNodeInfo info);
-  virtual void configNodesStarted();
+  bool init(Flows::PNodeInfo info) override;
+  void configNodesStarted() override;
  private:
   enum class VariableType {
     kDigital = 0,

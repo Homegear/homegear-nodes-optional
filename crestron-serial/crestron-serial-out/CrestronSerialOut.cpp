@@ -32,6 +32,7 @@
 namespace CrestronSerialOut {
 
 CrestronSerialOut::CrestronSerialOut(std::string path, std::string nodeNamespace, std::string type, const std::atomic_bool *frontendConnected) : Flows::INode(path, nodeNamespace, type, frontendConnected) {
+  _localRpcMethods.emplace("packetReceived", std::bind(&CrestronSerialOut::packetReceived, this, std::placeholders::_1));
   _localRpcMethods.emplace("setConnectionState", std::bind(&CrestronSerialOut::setConnectionState, this, std::placeholders::_1));
 }
 
@@ -63,7 +64,7 @@ bool CrestronSerialOut::init(Flows::PNodeInfo info) {
         auto variableInfo = std::make_shared<VariableInfo>();
         if (typeIterator->second->type == Flows::VariableType::tInteger || typeIterator->second->type == Flows::VariableType::tInteger64) variableInfo->type = (VariableType)typeIterator->second->integerValue;
         else variableInfo->type = (VariableType)Flows::Math::getNumber(typeIterator->second->stringValue);
-        variableInfo->inputIndex = (uint32_t)inputIndex;
+        variableInfo->outputIndex = (uint32_t)inputIndex;
         variableInfo->index = (uint32_t)index;
         _variables.emplace(inputIndex, variableInfo);
       }
@@ -75,6 +76,47 @@ bool CrestronSerialOut::init(Flows::PNodeInfo info) {
     _out->printEx(__FILE__, __LINE__, __PRETTY_FUNCTION__, ex.what());
   }
   return false;
+}
+
+void CrestronSerialOut::configNodesStarted() {
+  try {
+    if (_serial.empty()) {
+      _out->printError("Error: This node has no serial node assigned.");
+      return;
+    }
+
+    Flows::PArray parameters = std::make_shared<Flows::Array>();
+    parameters->reserve(2);
+    parameters->push_back(std::make_shared<Flows::Variable>(_id));
+    Flows::PVariable variables = std::make_shared<Flows::Variable>(Flows::VariableType::tArray);
+    variables->arrayValue->reserve(2);
+    parameters->push_back(variables);
+
+    {
+      Flows::PVariable element = std::make_shared<Flows::Variable>(Flows::VariableType::tArray);
+      element->arrayValue->reserve(2);
+      element->arrayValue->push_back(std::make_shared<Flows::Variable>((int32_t)VariableType::kFc));
+      element->arrayValue->push_back(std::make_shared<Flows::Variable>(0));
+      variables->arrayValue->push_back(element);
+    }
+
+    {
+      Flows::PVariable element = std::make_shared<Flows::Variable>(Flows::VariableType::tArray);
+      element->arrayValue->reserve(2);
+      element->arrayValue->push_back(std::make_shared<Flows::Variable>((int32_t)VariableType::kFd));
+      element->arrayValue->push_back(std::make_shared<Flows::Variable>(0));
+      variables->arrayValue->push_back(element);
+    }
+
+    Flows::PVariable result = invokeNodeMethod(_serial, "registerNode", parameters, true);
+    if (result->errorStruct) _out->printError("Error: Could not register node: " + result->structValue->at("faultString")->stringValue);
+  }
+  catch (const std::exception &ex) {
+    _out->printEx(__FILE__, __LINE__, __PRETTY_FUNCTION__, ex.what());
+  }
+  catch (...) {
+    _out->printEx(__FILE__, __LINE__, __PRETTY_FUNCTION__);
+  }
 }
 
 void CrestronSerialOut::input(const Flows::PNodeInfo info, uint32_t index, const Flows::PVariable message) {
@@ -95,6 +137,10 @@ void CrestronSerialOut::input(const Flows::PNodeInfo info, uint32_t index, const
       parameters->push_back(payload);
 
       invokeNodeMethod(_serial, "write", parameters, false);
+      if (*variablesIterator->second->lastValue != *payload) {
+        setNodeData("output" + std::to_string(variablesIterator->second->index), payload);
+        variablesIterator->second->lastValue = payload;
+      }
     } else if (variablesIterator->second->type == VariableType::kAnalog) {
       Flows::PArray parameters = std::make_shared<Flows::Array>();
       parameters->reserve(3);
@@ -103,6 +149,10 @@ void CrestronSerialOut::input(const Flows::PNodeInfo info, uint32_t index, const
       parameters->push_back(payload);
 
       invokeNodeMethod(_serial, "write", parameters, false);
+      if (*variablesIterator->second->lastValue != *payload) {
+        setNodeData("output" + std::to_string(variablesIterator->second->index), payload);
+        variablesIterator->second->lastValue = payload;
+      }
     } else {
       Flows::PArray parameters = std::make_shared<Flows::Array>();
       parameters->reserve(3);
@@ -119,6 +169,54 @@ void CrestronSerialOut::input(const Flows::PNodeInfo info, uint32_t index, const
 }
 
 //{{{ RPC methods
+Flows::PVariable CrestronSerialOut::packetReceived(Flows::PArray parameters) {
+  try {
+    if (parameters->size() != 3) return Flows::Variable::createError(-1, "Method expects exactly three parameter. " + std::to_string(parameters->size()) + " given.");
+    if (parameters->at(0)->type != Flows::VariableType::tInteger && parameters->at(0)->type != Flows::VariableType::tInteger64) return Flows::Variable::createError(-1, "Parameter 1 is not of type integer.");
+    if (parameters->at(1)->type != Flows::VariableType::tInteger && parameters->at(1)->type != Flows::VariableType::tInteger64) return Flows::Variable::createError(-1, "Parameter 2 is not of type integer.");
+    if (parameters->at(2)->type != Flows::VariableType::tInteger && parameters->at(2)->type != Flows::VariableType::tInteger64 && parameters->at(2)->type != Flows::VariableType::tBoolean)
+      return Flows::Variable::createError(-1, "Parameter 3 is not of type integer or boolean.");
+    auto type = (VariableType)parameters->at(0)->integerValue;
+    if (type == VariableType::kFc) {
+      for (auto &variable : _variables) {
+        auto parameters2 = std::make_shared<Flows::Array>();
+        parameters2->reserve(2);
+        parameters2->push_back(std::make_shared<Flows::Variable>(_id));
+        parameters2->push_back(std::make_shared<Flows::Variable>("output" + std::to_string(variable.second->index)));
+
+        invoke("deleteNodeData", parameters2);
+        variable.second->lastValue.reset();
+      }
+    } else if (type == VariableType::kFd) {
+      for (auto &variable : _variables) {
+        if (variable.second->type != VariableType::kDigital && variable.second->type != VariableType::kAnalog) continue;
+        if (!variable.second->lastValue) variable.second->lastValue = getNodeData("output" + std::to_string(variable.second->index));
+        if (!variable.second->lastValue) {
+          if (variable.second->type == VariableType::kDigital) variable.second->lastValue = std::make_shared<Flows::Variable>(false);
+          else variable.second->lastValue = std::make_shared<Flows::Variable>(0);
+        }
+
+        auto parameters2 = std::make_shared<Flows::Array>();
+        parameters2->reserve(3);
+        parameters2->push_back(std::make_shared<Flows::Variable>((int32_t)VariableType::kAnalog));
+        parameters2->push_back(std::make_shared<Flows::Variable>(variable.second->index));
+        parameters2->push_back(variable.second->lastValue);
+
+        invokeNodeMethod(_serial, "write", parameters2, false);
+      }
+    }
+
+    return std::make_shared<Flows::Variable>();
+  }
+  catch (const std::exception &ex) {
+    _out->printEx(__FILE__, __LINE__, __PRETTY_FUNCTION__, ex.what());
+  }
+  catch (...) {
+    _out->printEx(__FILE__, __LINE__, __PRETTY_FUNCTION__);
+  }
+  return Flows::Variable::createError(-32500, "Unknown application error.");
+}
+
 Flows::PVariable CrestronSerialOut::setConnectionState(Flows::PArray parameters) {
   try {
     if (parameters->size() != 1) return Flows::Variable::createError(-1, "Method expects exactly one parameter. " + std::to_string(parameters->size()) + " given.");

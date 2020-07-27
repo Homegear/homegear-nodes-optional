@@ -163,8 +163,12 @@ void CrestronSerialPort::packetReceived(VariableType type, uint32_t index, const
     for (auto &node : _nodes) {
       auto typeIterator = node.second.find(type);
       if (typeIterator != node.second.end()) {
-        auto indexIterator = typeIterator->second.find(index);
-        if (indexIterator != typeIterator->second.end()) invokeNodeMethod(node.first, "packetReceived", parameters, false);
+        if(type == VariableType::kFc || type == VariableType::kFd) {
+          invokeNodeMethod(node.first, "packetReceived", parameters, false);
+        } else {
+          auto indexIterator = typeIterator->second.find(index);
+          if (indexIterator != typeIterator->second.end()) invokeNodeMethod(node.first, "packetReceived", parameters, false);
+        }
       }
     }
   }
@@ -175,7 +179,7 @@ void CrestronSerialPort::packetReceived(VariableType type, uint32_t index, const
 
 void CrestronSerialPort::listenThread() {
   int32_t readBytes = 0;
-  std::vector<char> buffer;
+  std::vector<uint8_t> buffer;
   buffer.reserve(4);
   char data;
   while (!_stopThread) {
@@ -183,6 +187,11 @@ void CrestronSerialPort::listenThread() {
       readBytes = _serial->readChar(data);
       if (readBytes == 0) {
         if (buffer.empty() && !((uint8_t)data & 0x80u)) continue; //Only the start byte has the first bit set
+        if (buffer.empty() && (uint8_t)data == 0xFCu) {
+          packetReceived(VariableType::kFc, 0, std::make_shared<Flows::Variable>(true));
+        } else if (buffer.empty() && (uint8_t)data == 0xFDu) {
+          packetReceived(VariableType::kFd, 0, std::make_shared<Flows::Variable>(true));
+        }
         buffer.push_back(data);
         bool isAnalogPacket = ((uint8_t)buffer.at(0) & 0xC0u) == 0xC0u;
         if ((isAnalogPacket && buffer.size() == 4) || (!isAnalogPacket && buffer.size() == 2)) {

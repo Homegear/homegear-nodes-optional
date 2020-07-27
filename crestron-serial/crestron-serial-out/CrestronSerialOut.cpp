@@ -198,7 +198,7 @@ Flows::PVariable CrestronSerialOut::packetReceived(Flows::PArray parameters) {
 
         auto parameters2 = std::make_shared<Flows::Array>();
         parameters2->reserve(3);
-        parameters2->push_back(std::make_shared<Flows::Variable>((int32_t)VariableType::kAnalog));
+        parameters2->push_back(std::make_shared<Flows::Variable>((int32_t)variable.second->type));
         parameters2->push_back(std::make_shared<Flows::Variable>(variable.second->index));
         parameters2->push_back(variable.second->lastValue);
 

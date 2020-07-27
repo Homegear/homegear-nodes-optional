@@ -205,8 +205,10 @@ void CrestronSerialPort::listenThread() {
         if (buffer.empty() && !((uint8_t)data & 0x80u)) continue; //Only the start byte has the first bit set
         if (buffer.empty() && (uint8_t)data == 0xFCu) {
           packetReceived(VariableType::kFc, 0, std::make_shared<Flows::Variable>(true));
+          continue;
         } else if (buffer.empty() && (uint8_t)data == 0xFDu) {
           packetReceived(VariableType::kFd, 0, std::make_shared<Flows::Variable>(true));
+          continue;
         }
         buffer.push_back(data);
         bool isAnalogPacket = ((uint8_t)buffer.at(0) & 0xC0u) == 0xC0u;

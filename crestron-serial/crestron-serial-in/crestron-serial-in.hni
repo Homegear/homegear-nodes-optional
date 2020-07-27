@@ -100,8 +100,8 @@
                     }
                     var row = $('<div/>').appendTo(container);
                     var nameLabel = $('<span/>',{class:"node-input-variable-name-label"}).text(" "+nameLabelText+" ").appendTo(row);
-                    var nameField = $('<input/>',{class:"node-input-variable-name",type:"text",maxlength:"5",style:"margin-left: 5px; width: 60px;"}).appendTo(row);
-                    var typeField = $('<select/>',{class:"node-input-variable-type", style:"width:70px; margin-left: 5px; text-align: center;"}).appendTo(row);
+                    var nameField = $('<input/>',{class:"node-input-variable-name",type:"text",maxlength:"10",style:"margin-left: 5px; width: 60px;"}).appendTo(row);
+                    var typeField = $('<select/>',{class:"node-input-variable-type", style:"width:100px; margin-left: 5px; text-align: center;"}).appendTo(row);
                     typeField.append($("<option></option>").val("Digital").text("Digital"));
                     typeField.append($("<option></option>").val("Analog").text("Analog"));
                     var indexLabel = $('<span/>',{class:"node-input-variable-index-label"}).text(" "+indexLabelText+" ").appendTo(row);

@@ -36,16 +36,14 @@
 #include <queue>
 #include <unordered_map>
 
-namespace CrestronSerialIn
-{
+namespace CrestronSerialIn {
 
-class CrestronSerialIn: public Flows::INode
-{
+class CrestronSerialIn : public Flows::INode {
  public:
-  CrestronSerialIn(std::string path, std::string nodeNamespace, std::string type, const std::atomic_bool* frontendConnected);
+  CrestronSerialIn(const std::string &path, const std::string &nodeNamespace, const std::string &type, const std::atomic_bool *frontendConnected);
   ~CrestronSerialIn() override;
 
-  bool init(Flows::PNodeInfo info) override;
+  bool init(const Flows::PNodeInfo &info) override;
   void configNodesStarted() override;
  private:
   enum class VariableType {
@@ -55,8 +53,7 @@ class CrestronSerialIn: public Flows::INode
     kFd = 3
   };
 
-  struct VariableInfo
-  {
+  struct VariableInfo {
     VariableType type = VariableType::kDigital;
     uint32_t outputIndex = 0;
     uint32_t index = 0;
@@ -69,8 +66,8 @@ class CrestronSerialIn: public Flows::INode
   std::unordered_map<uint32_t, std::shared_ptr<VariableInfo>> _analog;
 
   //{{{ RPC methods
-  Flows::PVariable packetReceived(Flows::PArray parameters);
-  Flows::PVariable setConnectionState(Flows::PArray parameters);
+  Flows::PVariable packetReceived(const Flows::PArray& parameters);
+  Flows::PVariable setConnectionState(const Flows::PArray& parameters);
   //}}}
 };
 

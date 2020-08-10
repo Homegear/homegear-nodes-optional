@@ -37,56 +37,54 @@
 #include <set>
 #include <thread>
 
-namespace CrestronSerial
-{
+namespace CrestronSerial {
 
-class CrestronSerialPort : public Flows::INode
-{
-public:
-	CrestronSerialPort(std::string path, std::string nodeNamespace, std::string type, const std::atomic_bool* frontendConnected);
-	virtual ~CrestronSerialPort();
+class CrestronSerialPort : public Flows::INode {
+ public:
+  CrestronSerialPort(const std::string &path, const std::string &nodeNamespace, const std::string &type, const std::atomic_bool *frontendConnected);
+  ~CrestronSerialPort() override;
 
-	virtual bool init(Flows::PNodeInfo info);
-	virtual bool start();
-	virtual void stop();
-	virtual void waitForStop();
+  bool init(const Flows::PNodeInfo &info) override;
+  bool start() override;
+  void stop() override;
+  void waitForStop() override;
 
-	virtual Flows::PVariable getConfigParameterIncoming(std::string name);
-private:
-    enum class VariableType {
-      kDigital = 0,
-      kAnalog = 1,
-      kFc = 2,
-      kFd = 3
-    };
+  Flows::PVariable getConfigParameterIncoming(const std::string &name) override;
+ private:
+  enum class VariableType {
+    kDigital = 0,
+    kAnalog = 1,
+    kFc = 2,
+    kFd = 3
+  };
 
-	Flows::PNodeInfo _nodeInfo;
+  Flows::PNodeInfo _nodeInfo;
 
-    std::mutex _nodesMutex;
-    std::map<std::string, std::map<VariableType, std::set<uint32_t>>> _nodes;
+  std::mutex _nodesMutex;
+  std::map<std::string, std::map<VariableType, std::set<uint32_t>>> _nodes;
 
-    std::shared_ptr<SerialReaderWriter> _serial;
-    std::atomic_bool _stopThread;
-	std::thread _readThread;
+  std::shared_ptr<SerialReaderWriter> _serial;
+  std::atomic_bool _stopThread{true};
+  std::thread _readThread;
 
-    //{{{ Settings
-        std::string _serialPort;
-        int32_t _baudRate = 57600;
-        SerialReaderWriter::CharacterSize _dataBits = SerialReaderWriter::CharacterSize::Eight;
-        bool _evenParity = false;
-        bool _oddParity = false;
-        int32_t _stopBits = 1;
-    //}}}
+  //{{{ Settings
+  std::string _serialPort;
+  int32_t _baudRate = 57600;
+  SerialReaderWriter::CharacterSize _dataBits = SerialReaderWriter::CharacterSize::Eight;
+  bool _evenParity = false;
+  bool _oddParity = false;
+  int32_t _stopBits = 1;
+  //}}}
 
-    void listenThread();
-    void reopen();
-    void setConnectionState(bool state);
-    void packetReceived(VariableType type, uint32_t index, const Flows::PVariable &value);
+  void listenThread();
+  void reopen();
+  void setConnectionState(bool state);
+  void packetReceived(VariableType type, uint32_t index, const Flows::PVariable &value);
 
-	//{{{ RPC methods
-	Flows::PVariable registerNode(Flows::PArray parameters);
-	Flows::PVariable write(Flows::PArray parameters);
-	//}}}
+  //{{{ RPC methods
+  Flows::PVariable registerNode(const Flows::PArray& parameters);
+  Flows::PVariable write(const Flows::PArray& parameters);
+  //}}}
 };
 
 }

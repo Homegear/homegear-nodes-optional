@@ -31,25 +31,16 @@
 
 namespace CrestronSerial {
 
-CrestronSerialPort::CrestronSerialPort(std::string path, std::string nodeNamespace, std::string type, const std::atomic_bool *frontendConnected) : Flows::INode(path, nodeNamespace, type, frontendConnected) {
-  _stopThread = false;
-
+CrestronSerialPort::CrestronSerialPort(const std::string &path, const std::string &nodeNamespace, const std::string &type, const std::atomic_bool *frontendConnected) : Flows::INode(path, nodeNamespace, type, frontendConnected) {
   _localRpcMethods.emplace("registerNode", std::bind(&CrestronSerialPort::registerNode, this, std::placeholders::_1));
   _localRpcMethods.emplace("write", std::bind(&CrestronSerialPort::write, this, std::placeholders::_1));
 }
 
-CrestronSerialPort::~CrestronSerialPort() {
-}
+CrestronSerialPort::~CrestronSerialPort() = default;
 
-bool CrestronSerialPort::init(Flows::PNodeInfo info) {
-  try {
-    _nodeInfo = info;
-    return true;
-  }
-  catch (const std::exception &ex) {
-    _out->printEx(__FILE__, __LINE__, __PRETTY_FUNCTION__, ex.what());
-  }
-  return false;
+bool CrestronSerialPort::init(const Flows::PNodeInfo &info) {
+  _nodeInfo = info;
+  return true;
 }
 
 bool CrestronSerialPort::start() {
@@ -110,25 +101,20 @@ bool CrestronSerialPort::start() {
 }
 
 void CrestronSerialPort::stop() {
-  try {
-    _stopThread = true;
-  }
-  catch (const std::exception &ex) {
-    _out->printEx(__FILE__, __LINE__, __PRETTY_FUNCTION__, ex.what());
-  }
+  _stopThread = true;
 }
 
 void CrestronSerialPort::waitForStop() {
   try {
     _stopThread = true;
-    if(_readThread.joinable()) _readThread.join();
+    if (_readThread.joinable()) _readThread.join();
   }
   catch (const std::exception &ex) {
     _out->printEx(__FILE__, __LINE__, __PRETTY_FUNCTION__, ex.what());
   }
 }
 
-Flows::PVariable CrestronSerialPort::getConfigParameterIncoming(std::string name) {
+Flows::PVariable CrestronSerialPort::getConfigParameterIncoming(const std::string &name) {
   try {
     auto settingsIterator = _nodeInfo->info->structValue->find(name);
     if (settingsIterator != _nodeInfo->info->structValue->end()) return settingsIterator->second;
@@ -162,8 +148,7 @@ void CrestronSerialPort::setConnectionState(bool state) {
   parameters->push_back(std::make_shared<Flows::Variable>(state));
 
   std::lock_guard<std::mutex> nodesGuard(_nodesMutex);
-  for(auto& node : _nodes)
-  {
+  for (auto &node : _nodes) {
     invokeNodeMethod(node.first, "setConnectionState", parameters, false);
   }
 }
@@ -179,7 +164,7 @@ void CrestronSerialPort::packetReceived(VariableType type, uint32_t index, const
     for (auto &node : _nodes) {
       auto typeIterator = node.second.find(type);
       if (typeIterator != node.second.end()) {
-        if(type == VariableType::kFc || type == VariableType::kFd) {
+        if (type == VariableType::kFc || type == VariableType::kFd) {
           invokeNodeMethod(node.first, "packetReceived", parameters, false);
         } else {
           auto indexIterator = typeIterator->second.find(index);
@@ -233,7 +218,7 @@ void CrestronSerialPort::listenThread() {
 }
 
 //{{{ RPC methods
-Flows::PVariable CrestronSerialPort::registerNode(Flows::PArray parameters) {
+Flows::PVariable CrestronSerialPort::registerNode(const Flows::PArray &parameters) {
   try {
     if (parameters->size() != 2) return Flows::Variable::createError(-1, "Method expects exactly one parameter. " + std::to_string(parameters->size()) + " given.");
     if (parameters->at(0)->type != Flows::VariableType::tString || parameters->at(0)->stringValue.empty()) return Flows::Variable::createError(-1, "Parameter is not of type string.");
@@ -255,25 +240,27 @@ Flows::PVariable CrestronSerialPort::registerNode(Flows::PArray parameters) {
   return Flows::Variable::createError(-32500, "Unknown application error.");
 }
 
-Flows::PVariable CrestronSerialPort::write(Flows::PArray parameters) {
+Flows::PVariable CrestronSerialPort::write(const Flows::PArray &parameters) {
   try {
     if (parameters->size() != 3) return Flows::Variable::createError(-1, "Method expects exactly three parameters.");
     if (parameters->at(0)->type != Flows::VariableType::tInteger && parameters->at(0)->type != Flows::VariableType::tInteger64) return Flows::Variable::createError(-1, "Parameter is not of type integer.");
     if (parameters->at(1)->type != Flows::VariableType::tInteger && parameters->at(1)->type != Flows::VariableType::tInteger64) return Flows::Variable::createError(-1, "Parameter 2 is not of type integer.");
-    if (parameters->at(2)->type != Flows::VariableType::tInteger && parameters->at(2)->type != Flows::VariableType::tInteger64 && parameters->at(2)->type != Flows::VariableType::tBoolean) return Flows::Variable::createError(-1, "Parameter 3 is not of type integer or boolean.");
+    if (parameters->at(2)->type != Flows::VariableType::tInteger && parameters->at(2)->type != Flows::VariableType::tInteger64 && parameters->at(2)->type != Flows::VariableType::tBoolean)
+      return Flows::Variable::createError(-1,
+                                          "Parameter 3 is not of type integer or boolean.");
 
     auto type = (VariableType)parameters->at(0)->integerValue64;
     auto index = (uint16_t)(parameters->at(1)->integerValue64 + 1024);
 
-    if(type == VariableType::kDigital) {
+    if (type == VariableType::kDigital) {
       std::vector<uint8_t> buffer;
       buffer.resize(2, 0);
       buffer.at(0) |= 0x80u;
-      if(!parameters->at(2)->booleanValue) buffer.at(0) |= 0x20u;
+      if (!parameters->at(2)->booleanValue) buffer.at(0) |= 0x20u;
       buffer.at(0) |= ((uint8_t)(index >> 7u) & 0x1Fu);
       buffer.at(1) = (index & 0x7Fu);
       _serial->writeData(buffer);
-    } else if(type == VariableType::kAnalog) {
+    } else if (type == VariableType::kAnalog) {
       auto value = (uint16_t)parameters->at(2)->integerValue64;
       std::vector<uint8_t> buffer;
       buffer.resize(4, 0);
@@ -284,9 +271,9 @@ Flows::PVariable CrestronSerialPort::write(Flows::PArray parameters) {
       buffer.at(2) = ((uint8_t)(value >> 7u) & 0x7Fu);
       buffer.at(3) = (value & 0x7Fu);
       _serial->writeData(buffer);
-    } else if(type == VariableType::kFc) {
+    } else if (type == VariableType::kFc) {
       _serial->writeData(std::vector<uint8_t>{0xFCu});
-    } else if(type == VariableType::kFd) {
+    } else if (type == VariableType::kFd) {
       _serial->writeData(std::vector<uint8_t>{0xFDu});
     }
 

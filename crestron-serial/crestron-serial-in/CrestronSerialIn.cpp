@@ -31,15 +31,14 @@
 
 namespace CrestronSerialIn {
 
-CrestronSerialIn::CrestronSerialIn(std::string path, std::string nodeNamespace, std::string type, const std::atomic_bool *frontendConnected) : Flows::INode(path, nodeNamespace, type, frontendConnected) {
+CrestronSerialIn::CrestronSerialIn(const std::string &path, const std::string &nodeNamespace, const std::string &type, const std::atomic_bool *frontendConnected) : Flows::INode(path, nodeNamespace, type, frontendConnected) {
   _localRpcMethods.emplace("packetReceived", std::bind(&CrestronSerialIn::packetReceived, this, std::placeholders::_1));
   _localRpcMethods.emplace("setConnectionState", std::bind(&CrestronSerialIn::setConnectionState, this, std::placeholders::_1));
 }
 
-CrestronSerialIn::~CrestronSerialIn() {
-}
+CrestronSerialIn::~CrestronSerialIn() = default;
 
-bool CrestronSerialIn::init(Flows::PNodeInfo info) {
+bool CrestronSerialIn::init(const Flows::PNodeInfo &info) {
   try {
     _outputs = 0;
 
@@ -127,7 +126,7 @@ void CrestronSerialIn::configNodesStarted() {
 }
 
 //{{{ RPC methods
-Flows::PVariable CrestronSerialIn::packetReceived(Flows::PArray parameters) {
+Flows::PVariable CrestronSerialIn::packetReceived(const Flows::PArray &parameters) {
   try {
     if (parameters->size() != 3) return Flows::Variable::createError(-1, "Method expects exactly three parameter. " + std::to_string(parameters->size()) + " given.");
     if (parameters->at(0)->type != Flows::VariableType::tInteger && parameters->at(0)->type != Flows::VariableType::tInteger64) return Flows::Variable::createError(-1, "Parameter 1 is not of type integer.");
@@ -165,7 +164,7 @@ Flows::PVariable CrestronSerialIn::packetReceived(Flows::PArray parameters) {
   return Flows::Variable::createError(-32500, "Unknown application error.");
 }
 
-Flows::PVariable CrestronSerialIn::setConnectionState(Flows::PArray parameters) {
+Flows::PVariable CrestronSerialIn::setConnectionState(const Flows::PArray &parameters) {
   try {
     if (parameters->size() != 1) return Flows::Variable::createError(-1, "Method expects exactly one parameter. " + std::to_string(parameters->size()) + " given.");
     if (parameters->at(0)->type != Flows::VariableType::tBoolean) return Flows::Variable::createError(-1, "Parameter is not of type boolean.");

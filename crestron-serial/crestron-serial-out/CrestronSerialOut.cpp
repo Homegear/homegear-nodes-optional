@@ -31,15 +31,14 @@
 
 namespace CrestronSerialOut {
 
-CrestronSerialOut::CrestronSerialOut(std::string path, std::string nodeNamespace, std::string type, const std::atomic_bool *frontendConnected) : Flows::INode(path, nodeNamespace, type, frontendConnected) {
+CrestronSerialOut::CrestronSerialOut(const std::string &path, const std::string &nodeNamespace, const std::string &type, const std::atomic_bool *frontendConnected) : Flows::INode(path, nodeNamespace, type, frontendConnected) {
   _localRpcMethods.emplace("packetReceived", std::bind(&CrestronSerialOut::packetReceived, this, std::placeholders::_1));
   _localRpcMethods.emplace("setConnectionState", std::bind(&CrestronSerialOut::setConnectionState, this, std::placeholders::_1));
 }
 
-CrestronSerialOut::~CrestronSerialOut() {
-}
+CrestronSerialOut::~CrestronSerialOut() = default;
 
-bool CrestronSerialOut::init(Flows::PNodeInfo info) {
+bool CrestronSerialOut::init(const Flows::PNodeInfo &info) {
   try {
     int32_t inputIndex = -1;
 
@@ -119,7 +118,7 @@ void CrestronSerialOut::configNodesStarted() {
   }
 }
 
-void CrestronSerialOut::input(const Flows::PNodeInfo info, uint32_t index, const Flows::PVariable message) {
+void CrestronSerialOut::input(const Flows::PNodeInfo &info, uint32_t index, const Flows::PVariable &message) {
   try {
     auto variablesIterator = _variables.find(index);
     if (variablesIterator == _variables.end()) return;
@@ -169,7 +168,7 @@ void CrestronSerialOut::input(const Flows::PNodeInfo info, uint32_t index, const
 }
 
 //{{{ RPC methods
-Flows::PVariable CrestronSerialOut::packetReceived(Flows::PArray parameters) {
+Flows::PVariable CrestronSerialOut::packetReceived(const Flows::PArray& parameters) {
   try {
     if (parameters->size() != 3) return Flows::Variable::createError(-1, "Method expects exactly three parameter. " + std::to_string(parameters->size()) + " given.");
     if (parameters->at(0)->type != Flows::VariableType::tInteger && parameters->at(0)->type != Flows::VariableType::tInteger64) return Flows::Variable::createError(-1, "Parameter 1 is not of type integer.");
@@ -217,7 +216,7 @@ Flows::PVariable CrestronSerialOut::packetReceived(Flows::PArray parameters) {
   return Flows::Variable::createError(-32500, "Unknown application error.");
 }
 
-Flows::PVariable CrestronSerialOut::setConnectionState(Flows::PArray parameters) {
+Flows::PVariable CrestronSerialOut::setConnectionState(const Flows::PArray& parameters) {
   try {
     if (parameters->size() != 1) return Flows::Variable::createError(-1, "Method expects exactly one parameter. " + std::to_string(parameters->size()) + " given.");
     if (parameters->at(0)->type != Flows::VariableType::tBoolean) return Flows::Variable::createError(-1, "Parameter is not of type boolean.");

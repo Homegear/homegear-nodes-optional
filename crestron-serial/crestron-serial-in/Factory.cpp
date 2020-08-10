@@ -31,12 +31,10 @@
 #include "CrestronSerialIn.h"
 #include "../config.h"
 
-Flows::INode* MyFactory::createNode(std::string path, std::string nodeNamespace, std::string type, const std::atomic_bool* frontendConnected)
-{
-	return new CrestronSerialIn::CrestronSerialIn(path, nodeNamespace, type, frontendConnected);
+Flows::INode *MyFactory::createNode(const std::string &path, const std::string &nodeNamespace, const std::string &type, const std::atomic_bool *frontendConnected) {
+  return new CrestronSerialIn::CrestronSerialIn(path, nodeNamespace, type, frontendConnected);
 }
 
-Flows::NodeFactory* getFactory()
-{
-	return (Flows::NodeFactory*) (new MyFactory);
+Flows::NodeFactory *getFactory() {
+  return (Flows::NodeFactory *)(new MyFactory);
 }

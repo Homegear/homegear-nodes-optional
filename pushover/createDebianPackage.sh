@@ -16,7 +16,7 @@ revision=$(cat revision.txt)
 
 rm -Rf node-blue-node-pushover*
 mkdir node-blue-node-pushover-$version
-cp -R locales vendor *.php *.hni debian node-blue-node-pushover-$version
+cp -R locales vendor *.php *.hni *.png debian node-blue-node-pushover-$version
 date=`LANG=en_US.UTF-8 date +"%a, %d %b %Y %T %z"`
 echo "node-blue-node-pushover ($version-$revision) $1; urgency=low
 

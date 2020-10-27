@@ -1,0 +1,47 @@
+<p>Verbindet sich automatisch mit einem Apple TV im Netzwerk, kann dieses kontrollieren und lauscht auf Ereignisse.</p>
+<h3>Eingänge</h3>
+<dl class="message-properties">
+	<dt>PWR</dt>
+	<dd>Schaltet das Apple TV ein oder aus.</dd>
+	<dt>RMT</dt>
+	<dd>
+		Sendet Fernbedienungsbefehle an das Apple TV. Folgende Befehle können als <code>String</code> in <code>$message['payload']</code> übergeben werden:
+		<ul>
+			<li><code>down</code>: Runtertaste</li>
+			<li><code>home</code>: Hometaste</li>
+			<li><code>home_hold</code>: Hometaste halten</li>
+			<li><code>left</code>: Linkstaste</li>
+			<li><code>menu</code>: Menütaste</li>
+			<li><code>next</code>: Weitertaste</li>
+			<li><code>pause</code>: Pausetaste</li>
+			<li><code>play</code>: Abspielentaste</li>
+			<li><code>play_pause</code>: Zwischen Abspielen und Pause togglen</li>
+			<li><code>previous</code>: Zurücktaste</li>
+			<li><code>right</code>: Rechtstaste</li>
+			<li><code>select</code>: Auswählentaste</li>
+			<li><code>set_position</code>: Setzt die aktuelle Abspielposition. Die zu setzende Position muss als <code>Integer</code> in <code>$message['position']</code> angegeben werden.</li>
+			<li><code>set_repeat</code>: Setzt die Wiederholen-Einstellung. Der zu setzende Werd muss als <code>String</code> in <code>$message['state']</code> angegeben werden. Mögliche Werte sind <code>all</code>, <code>off</code> und <code>track</code>.</li>
+			<li><code>set_shuffle</code>: Setzt die Einstellung für zufällige Wiedergabe. Der zu setzende Werd muss als <code>String</code> in <code>$message['state']</code> angegeben werden. Mögliche Werte sind <code>albums</code>, <code>off</code> und <code>song</code>.</li>
+			<li><code>skip_backward</code>: Spult ein definiertes Zeitintervall zurück. Das Zeitintervall wird durch die App definiert, beträgt typischerweise aber zwischen 15-30s.</li>
+			<li><code>skip_forward</code>: Spult ein definiertes Zeitintervall vor. Das Zeitintervall wird durch die App definiert, beträgt typischerweise aber zwischen 15-30s.</li>
+			<li><code>stop</code>: Stopptaste</li>
+			<li><code>suspend</code>: Setzt das Gerät in den Ruhezustand.</li>
+			<li><code>top_menu</code>: Gehe zum Hauptmenü (entspricht langem Druck der Menütaste)</li>
+			<li><code>up</code>: Hochtaste</li>
+			<li><code>volume_down</code>: Lautstärke-Runtertaste</li>
+			<li><code>volume_up</code>: Lautstärke-Rauftaste</li>
+			<li><code>wakeup</code>: Schaltet das Gerät ein</li>
+		</ul>
+	</dd>
+</dl>
+<h3>Ausgänge</h3>
+<dl class="message-properties">
+	<dt>INIT</dt>
+	<dd>Gibt Änderungen des aktuellen Verbindungsstatus aus.</dd>
+	<dt>PWR</dt>
+	<dd>Gibt ein Ereignis aus, wenn das Apple TV ein- (<code>true</code>) oder ausgeschaltet (<code>false</code>) wird.</dd>
+	<dt>PLAY</dt>
+	<dd>Gibt den aktuellen Abspielstatus als <code>String</code> aus. Mögliche Werte sind <code>idle</code>, <code>loading</code>, <code>paused</code>, <code>playing</code>, <code>seeking</code> und <code>stopped</code>.</dd>
+	<dt>CONT</dt>
+	<dd>Gibt bei Änderungen in einer Struktur Informationen über den aktuellen Abspielinhalt- und -status aus.</dd>
+</dl>

@@ -1,0 +1,19 @@
+{
+  "pushover/pushover.hni": {
+    "pushover": {
+      "label": {
+        "title": "Titel",
+        "device": "Gerät",
+        "userKey": "User Key",
+        "apiToken": "API Token",
+        "name": "Name"
+      },
+      "placeholder": {
+        "title": "Homegear",
+        "device": "freilassen für alle Geräte"
+      },
+      "tip": "Tip: Mehr Information im Info-Tab",
+      "paletteHelp": "<p>Nachrichten über die Pushover API versenden.</p>"
+    }
+  }
+}

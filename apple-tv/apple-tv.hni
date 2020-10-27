@@ -1,0 +1,62 @@
+<script type="text/x-homegear">
+{
+    "name": "apple-tv",
+    "readableName": "Apple TV",
+    "version": "1.0.0",
+    "coreNode": true,
+    "maxThreadCount": 2
+}
+</script>
+<script type="text/x-red" data-template-name="apple-tv">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]node-red:common.label.name">
+    </div>
+</script>
+<script type="text/javascript">
+(function() {
+    RED.nodes.registerType('apple-tv',{
+        category: 'multimedia',
+        namespace: 'apple-tv',
+        defaults: {
+            name: {name:""}
+        },
+        color:"#FFAAAA",
+        inputs:2,
+        inputInfo: [
+            {
+                label: "PWR",
+                types: ["boolean"]
+            },
+            {
+                label: "RMT",
+                types: ["string"]
+            }
+        ],
+        outputs:4,
+        outputInfo: [
+            {
+                label: "INIT",
+                types: ["boolean"]
+            },
+            {
+                label: "PWR",
+                types: ["boolean"]
+            },
+            {
+                label: "PLAY",
+                types: ["string"]
+            },
+            {
+                label: "CONT",
+                types: ["struct"]
+            }
+        ],
+        icon: "font-awesome/fa-television",
+        label: function() {
+            if(this.name) return this.name;
+            return "apple-tv";
+        }
+    });
+})();
+</script>

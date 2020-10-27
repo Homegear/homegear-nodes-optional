@@ -1,0 +1,23 @@
+{
+  "crestron-serial/crestron-serial-port.hni": {
+    "crestron-serial-port": {
+    	"help": "<p>Provides configuration options for a serial port to Crestron.</p>",
+    	"label": {
+            "serialport": "Serial Port",
+            "settings": "Settings",
+            "baudrate": "Baud Rate",
+            "databits": "Data Bits",
+            "parity": "Parity",
+            "stopbits": "Stop Bits"
+        },
+        "placeholder": {
+            "serialport": "for example: /dev/ttyUSB0"
+        },
+        "parity": {
+            "none": "None",
+            "even": "Even",
+            "odd": "Odd"
+        }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+Source: node-blue-node-apple-tv
+Maintainer: Dr. Sathya Laufer <sathya@laufers.net>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 8)
+Homepage: https://github.com/Homegear/homegear-nodes-optional/tree/dev/apple-tv/README.md
+
+Package: node-blue-node-apple-tv
+Architecture: all
+Section: misc
+Priority: optional
+Homepage: https://github.com/Homegear/homegear-nodes-optional/tree/dev/apple-tv/README.md
+Depends: ${shlibs:Depends}, ${misc:Depends}, homegear (>= 0.7.0), python3-homegear, python3 (>= 3.6.0), python3-pip, libffi-dev, libssl-dev, build-essential python3-dev
+Description: Provides a apple-tv node for Node-BLUE.
+ Keywords: apple tv,multimedia,tv,apple

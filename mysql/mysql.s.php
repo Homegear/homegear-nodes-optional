@@ -56,12 +56,12 @@ class HomegearNode extends HomegearNodeBase
 
         try {
 
-            if (!array_key_exists('topic', $message) || empty($message['topic'])) {
+            if (empty($message['topic'])) {
                 HomegearNodeBase::log(2, 'Empty topic, thus no query');
                 throw new \RuntimeException('empty query');
             }
 
-            if (!array_key_exists('payload', $message) || empty($message['payload'])) {
+            if (empty($message['payload'])) {
                 $message['payload'] = [];
             }
 

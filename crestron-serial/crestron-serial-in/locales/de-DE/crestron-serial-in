@@ -1,0 +1,12 @@
+{
+  "crestron-serial/crestron-serial-in.hni": {
+    "crestron-serial-in": {
+      "label": {
+        "name": "Name",
+        "variables": "Variablen",
+        "type": "Typ",
+        "index": "Index"
+      }
+    }
+  }
+}

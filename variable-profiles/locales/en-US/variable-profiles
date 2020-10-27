@@ -1,0 +1,13 @@
+{
+  "variable-profiles/variable-profiles.hni": {
+    "variable-profiles": {
+      "label": {
+        "name": "Name",
+        "profile": "Profile"
+      },
+      "tip": "Tip: See help tab for usage information.",
+      "paletteHelp": "<p>Activates variable profiles.</p>",
+      "help": "<p>This node activates a selected variable profile.</p>"
+    }
+  }
+}

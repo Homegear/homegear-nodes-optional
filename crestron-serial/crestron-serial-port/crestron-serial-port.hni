@@ -1,0 +1,113 @@
+<script type="text/x-homegear">
+{
+    "name": "crestron-serial-port",
+    "readableName": "Crestron serial port",
+    "version": "1.0.0",
+    "coreNode": true,
+    "maxThreadCount": 1
+}
+</script>
+<!--
+  Copyright JS Foundation and other contributors, http://js.foundation
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<script type="text/x-red" data-template-name="crestron-serial-port">
+    <div class="form-row">
+        <label for="node-config-input-serialport"><i class="fa fa-random"></i> <span data-i18n="crestron-serial-port.label.serialport"></span></label>
+        <input type="text" id="node-config-input-serialport" style="width:70%;" data-i18n="[placeholder]crestron-serial-port.placeholder.serialport">
+    </div>
+    <div class="form-row">
+        <table width="100%"><tr>
+            <td width="100px"><i class="fa fa-wrench"></i> <span data-i18n="crestron-serial-port.label.settings"></span></td>
+            <td width="110px" data-i18n="crestron-serial-port.label.baudrate"></td>
+            <td width="70px" data-i18n="crestron-serial-port.label.databits"></td>
+            <td width="80px" data-i18n="crestron-serial-port.label.parity"></td>
+            <td width="70px" data-i18n="crestron-serial-port.label.stopbits"></td>
+        </tr><tr><td>&nbsp;</td>
+        <td>
+            <input type="text" id="node-config-input-serialbaud" style="width:92%">
+        </td><td>
+        <select type="text" id="node-config-input-databits" style="width:90%;">
+            <option value="8">8</option>
+            <option value="7">7</option>
+            <option value="6">6</option>
+            <option value="5">5</option>
+        </select>
+        </td><td>
+        <select type="text" id="node-config-input-parity" style="width:90%;">
+            <option value="none" data-i18n="crestron-serial-port.parity.none"></option>
+            <option value="even" data-i18n="crestron-serial-port.parity.even"></option>
+            <option value="odd" data-i18n="crestron-serial-port.parity.odd"></option>
+        </select>
+        </td><td>
+        <select type="text" id="node-config-input-stopbits" style="width:90%;">
+            <option value="2">2</option>
+            <option value="1">1</option>
+        </select>
+        </td></tr></table>
+    </div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('crestron-serial-port',{
+        category: 'config',
+        namespace: 'crestron-serial',
+        defaults: {
+            serialport: {value:"",required:true},
+            serialbaud: {value:"57600",required:true,validate:RED.validators.number()},
+            databits: {value:8,required:true},
+            parity: {value:"none",required:true},
+            stopbits: {value:1,required:true}
+        },
+        label: function() {
+            this.serialbaud = this.serialbaud || 57600;
+            this.databits = this.databits || 8;
+            this.parity = this.parity || this._("crestron-serial-port.label.none");
+            this.stopbits = this.stopbits || 1;
+            return this.serialport+":"+this.serialbaud+"-"+this.databits+this.parity.charAt(0).toUpperCase()+this.stopbits;
+        },
+        oneditprepare: function() {
+            var previous = null;
+            var blist = [
+                {value:"115200",label:"115200",hasValue:false},
+                {value:"57600",label:"57600",hasValue:false},
+                {value:"38400",label:"38400",hasValue:false},
+                {value:"19200",label:"19200",hasValue:false},
+                {value:"9600",label:"9600",hasValue:false},
+                {value:"4800",label:"4800",hasValue:false},
+                {value:"2400",label:"2400",hasValue:false},
+                {value:"1200",label:"1200",hasValue:false},
+                {value:"600",label:"600",hasValue:false},
+                {value:"300",label:"300",hasValue:false},
+                {label:"other",value:"other",icon:"red/images/typedInput/09.svg",validate:/^[0-9]*$/}
+            ];
+
+            var serialbaudType = "custom";
+            for (var i in blist) {
+                if (this.serialbaud == blist[i].value) {
+                    serialbaudType = this.serialbaud;
+                }
+            }
+
+            $("#node-config-input-serialbaud").typedInput({
+                default: this.serialbaud,
+                types:blist
+            });
+
+        },
+        oneditsave: function() {
+            var mytype = $("#node-config-input-serialbaud").typedInput('type');
+            if (mytype !== "other") {
+                $("#node-config-input-serialbaud").typedInput('value',mytype);
+            }
+            this.serialbaud = $("#node-config-input-serialbaud").typedInput('value');
+        }
+    });
+</script>
